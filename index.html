@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hide and Nip — Cafe</title>
+<meta name="description" content="Hide and Nip — A cozy specialty cafe. Good coffee, good vibes."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#1A1410;--ink2:#2E261C;--gold:#C8A97E;--gold-d:#A07845;--gold-l:#F3E8D8;--gold-ll:#FAF4ED;--cream:#F8F3EC;--white:#fff;--muted:#8A7B6A;--muted2:#B5A898;--border:rgba(200,169,126,.22);--border2:rgba(200,169,126,.4);--r:10px;--r-lg:16px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+button{font-family:'Jost',sans-serif;cursor:pointer;outline:none;}
+input,select,textarea{font-family:'Jost',sans-serif;}
+
+/* LOADING */
+#ls{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .4s;}
+#ls.fade{opacity:0;pointer-events:none;}
+.l-wm{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--gold);letter-spacing:.1em;}
+.l-wm em{font-style:italic;}
+.l-bar{width:100px;height:1px;background:rgba(200,169,126,.18);position:relative;overflow:hidden;}
+.l-bar::after{content:'';position:absolute;left:-40%;top:0;width:40%;height:100%;background:var(--gold);animation:lslide 1s infinite ease-in-out;}
+@keyframes lslide{0%{left:-40%}100%{left:140%}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:56px;background:rgba(248,243,236,.9);backdrop-filter:blur(10px);border-bottom:.5px solid var(--border);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;}
+.nav-logo em{font-style:italic;color:var(--gold-d);}
+.nav-links{display:flex;gap:22px;}
+.nav-links a{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:color .2s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-res{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:6px 16px;border-radius:20px;border:.5px solid var(--gold-d);color:var(--gold-d);background:transparent;transition:all .2s;}
+.nav-res:hover{background:var(--gold-d);color:#fff;}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:540px;display:flex;align-items:flex-end;overflow:hidden;background:var(--ink);}
+.h-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .7s;}
+.h-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,8,4,.88) 0%,rgba(12,8,4,.25) 55%,rgba(12,8,4,.08) 100%);}
+.h-ct{position:relative;z-index:2;padding:0 36px 56px;max-width:680px;}
+.h-ey{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.h-ey::before{content:'';display:inline-block;width:22px;height:.5px;background:var(--gold);}
+.h-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6.5vw,76px);font-weight:300;color:#fff;line-height:1.05;margin-bottom:14px;}
+.h-title em{font-style:italic;color:var(--gold);}
+.h-sub{font-size:13px;color:rgba(255,255,255,.5);line-height:1.8;max-width:420px;margin-bottom:28px;}
+.h-acts{display:flex;gap:10px;flex-wrap:wrap;}
+.btn-hp{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:12px 26px;border-radius:2px;background:var(--gold);color:var(--ink);border:none;transition:background .2s;}
+.btn-hp:hover{background:#d4b88e;}
+.btn-ho{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:12px 26px;border-radius:2px;background:transparent;color:#fff;border:.5px solid rgba(255,255,255,.38);transition:border-color .2s;}
+.btn-ho:hover{border-color:#fff;}
+.h-dots{position:absolute;bottom:28px;right:36px;z-index:3;display:flex;gap:5px;}
+.h-dot{width:18px;height:2px;background:rgba(255,255,255,.28);cursor:pointer;transition:all .3s;border:none;}
+.h-dot.on{background:var(--gold);width:30px;}
+.h-arrs{position:absolute;bottom:24px;right:110px;z-index:3;display:flex;gap:6px;}
+.h-arr{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);border:.5px solid rgba(255,255,255,.18);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.h-arr:hover{background:rgba(255,255,255,.2);}
+
+/* SECTIONS */
+.sec{padding:72px 36px;}
+.s-lbl{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.s-lbl::before{content:'';display:inline-block;width:16px;height:.5px;background:var(--gold-d);}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.8vw,46px);font-weight:400;line-height:1.1;margin-bottom:8px;}
+.s-title em{font-style:italic;color:var(--gold-d);}
+.s-desc{font-size:13px;color:var(--muted);line-height:1.85;max-width:500px;margin-bottom:36px;}
+
+/* ABOUT */
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;max-width:1060px;margin:0 auto;}
+.about-img-w{position:relative;}
+.about-img{width:100%;height:460px;object-fit:cover;border-radius:var(--r);}
+.about-img2{position:absolute;bottom:-16px;right:-16px;width:52%;height:240px;object-fit:cover;border-radius:var(--r);border:4px solid var(--white);}
+.about-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-d);background:var(--gold-ll);border:.5px solid var(--border2);padding:5px 14px;border-radius:20px;margin-bottom:14px;}
+.about-tx p{font-size:13px;color:var(--muted);line-height:1.95;margin-bottom:13px;}
+.about-stats{display:flex;gap:26px;margin-top:26px;padding-top:22px;border-top:.5px solid var(--border);}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--gold-d);display:block;}
+.stat-l{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);}
+
+/* GALLERY */
+.g-head{max-width:1060px;margin:0 auto 28px;}
+.g-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:1060px;margin:0 auto;}
+.g-item{position:relative;overflow:hidden;border-radius:var(--r);background:var(--ink2);cursor:pointer;}
+.g-item:nth-child(1){grid-column:span 2;grid-row:span 2;}
+.g-item:nth-child(5){grid-column:span 2;}
+.g-img{width:100%;height:100%;object-fit:cover;min-height:150px;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.g-item:nth-child(1) .g-img{min-height:300px;}
+.g-item:nth-child(5) .g-img{min-height:170px;}
+.g-ov{position:absolute;inset:0;background:rgba(26,20,16,0);display:flex;align-items:center;justify-content:center;transition:background .3s;}
+.g-item:hover .g-ov{background:rgba(26,20,16,.45);}
+.g-item:hover .g-img{transform:scale(1.04);}
+.g-zoom{font-size:20px;color:#fff;opacity:0;transform:scale(.7);transition:all .3s;}
+.g-item:hover .g-zoom{opacity:1;transform:scale(1);}
+
+/* MENU */
+.menu-w{max-width:1060px;margin:0 auto;}
+.m-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:26px;}
+.m-tab{font-size:11px;font-weight:500;letter-spacing:.04em;padding:6px 16px;border-radius:20px;border:.5px solid var(--border2);background:transparent;color:var(--muted);transition:all .2s;}
+.m-tab.on,.m-tab:hover{background:var(--gold-d);color:#fff;border-color:var(--gold-d);}
+.m-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.m-card{background:var(--cream);border:.5px solid var(--border);border-radius:var(--r);padding:14px;transition:border-color .2s,transform .2s;}
+.m-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+.mc-iw{width:100%;height:120px;border-radius:6px;overflow:hidden;background:var(--gold-l);margin-bottom:10px;}
+.mc-img{width:100%;height:100%;object-fit:cover;}
+.mc-ep{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:38px;}
+.mc-cat{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-d);margin-bottom:4px;}
+.mc-name{font-size:13px;font-weight:500;margin-bottom:3px;}
+.mc-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px;}
+.mc-price{font-size:12px;font-weight:500;color:var(--gold-d);}
+.m-empty{grid-column:1/-1;font-size:13px;color:var(--muted);text-align:center;padding:28px;}
+
+/* MUSIC */
+.mu-in{max-width:700px;margin:0 auto;}
+.mu-box{background:rgba(255,255,255,.04);border:.5px solid rgba(200,169,126,.2);border-radius:var(--r-lg);padding:22px;}
+.mu-src{display:flex;gap:6px;margin-bottom:14px;}
+.msrc{font-size:11px;font-weight:500;padding:5px 14px;border-radius:20px;border:.5px solid rgba(255,255,255,.14);background:transparent;color:rgba(255,255,255,.38);transition:all .2s;}
+.msrc.yt.on{background:#CC0000;color:#fff;border-color:#CC0000;}
+.msrc.sc.on{background:#FF5500;color:#fff;border-color:#FF5500;}
+.mu-row{display:flex;gap:8px;margin-bottom:14px;}
+.mu-row input{flex:1;font-size:13px;padding:9px 12px;background:rgba(255,255,255,.07);border:.5px solid rgba(255,255,255,.11);border-radius:8px;color:#fff;}
+.mu-row input::placeholder{color:rgba(255,255,255,.26);}
+.mu-add{padding:9px 16px;font-size:13px;font-weight:500;border-radius:8px;background:var(--gold);color:var(--ink);border:none;white-space:nowrap;transition:background .2s;}
+.mu-add:hover{background:#d4b88e;}
+.mu-add:disabled{opacity:.6;cursor:not-allowed;}
+#ytf{width:100%;height:195px;border-radius:8px;border:none;margin-bottom:10px;display:none;}
+#scf{width:100%;height:160px;border-radius:8px;border:none;margin-bottom:10px;display:none;}
+.q-hdr{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:7px;}
+.q-list{list-style:none;display:flex;flex-direction:column;gap:3px;max-height:150px;overflow-y:auto;}
+.qi{display:flex;align-items:center;gap:7px;padding:7px 9px;background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.07);border-radius:7px;font-size:11px;color:rgba(255,255,255,.46);cursor:pointer;transition:border-color .2s;}
+.qi:hover{border-color:rgba(200,169,126,.35);}
+.qi.on{border-color:var(--gold);color:var(--gold);}
+.qi-ic{font-size:8px;}
+.qi-lb{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.q-empty{font-size:11px;color:rgba(255,255,255,.2);padding:12px;text-align:center;border:.5px dashed rgba(255,255,255,.09);border-radius:7px;}
+.mu-hint{font-size:10px;color:rgba(255,255,255,.16);margin-top:9px;line-height:1.7;}
+
+/* RESERVATION */
+.res-w{max-width:660px;margin:0 auto;}
+.res-f{background:var(--white);border-radius:var(--r-lg);border:.5px solid var(--border);padding:30px;box-shadow:0 2px 20px rgba(26,20,16,.08);}
+.res-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.rf{display:flex;flex-direction:column;gap:5px;}
+.rf.full{grid-column:1/-1;}
+.rl{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+.ri,.rs,.rta{font-size:13px;padding:9px 12px;border:.5px solid rgba(122,106,88,.22);border-radius:8px;background:var(--cream);color:var(--ink);transition:border-color .2s;}
+.ri:focus,.rs:focus,.rta:focus{outline:none;border-color:var(--gold);}
+.rta{resize:vertical;min-height:75px;}
+.btn-res{width:100%;padding:12px;font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-radius:8px;border:none;background:var(--gold-d);color:#fff;transition:background .2s;margin-top:6px;}
+.btn-res:hover{background:var(--gold);}
+.res-note{font-size:11px;color:var(--muted);text-align:center;margin-top:9px;line-height:1.6;}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,.4);padding:36px;text-align:center;}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin-bottom:8px;}
+.ft-logo em{font-style:italic;}
+footer p{font-size:11px;line-height:1.9;}
+
+/* LIGHTBOX */
+.lb{display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.93);align-items:center;justify-content:center;}
+.lb.on{display:flex;}
+.lb-in{position:relative;max-width:92vw;max-height:90vh;}
+.lb-img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:5px;}
+.lb-cl{position:absolute;top:-34px;right:0;background:none;border:none;color:#fff;font-size:20px;opacity:.55;}
+.lb-cl:hover{opacity:1;}
+.lb-ar{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:.5px solid rgba(255,255,255,.18);color:#fff;width:38px;height:38px;border-radius:50%;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.lb-ar:hover{background:rgba(255,255,255,.2);}
+.lb-ar.pv{left:14px;}.lb-ar.nx{right:14px;}
+
+/* IMAGE UPLOAD */
+.img-up{display:flex;flex-direction:column;gap:5px;}
+.img-up-zone{border:1.5px dashed rgba(160,120,69,.35);border-radius:8px;padding:12px;text-align:center;cursor:pointer;background:var(--cream);transition:border-color .2s,background .2s;position:relative;}
+.img-up-zone:hover,.img-up-zone.drag{border-color:var(--gold-d);background:var(--gold-ll);}
+.img-up-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.img-up-icon{font-size:20px;margin-bottom:3px;}
+.img-up-txt{font-size:11px;color:var(--muted);}
+.img-up-txt strong{color:var(--gold-d);}
+.img-preview{width:100%;max-height:110px;object-fit:cover;border-radius:6px;display:none;margin-top:5px;}
+.img-preview.show{display:block;}
+.img-sep{font-size:10px;color:var(--muted2);text-align:center;margin:3px 0;}
+.img-status{font-size:10px;padding:4px 8px;border-radius:4px;display:none;margin-top:3px;}
+.img-status.ok{background:#e8f5e9;color:#2e7d32;display:block;}
+.img-status.err{background:#ffebee;color:#c62828;display:block;}
+.img-status.prog{background:#fff8e1;color:#856404;display:block;}
+
+/* ADMIN LOGIN */
+.adm-lp{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink);}
+.adm-lb{background:rgba(255,255,255,.04);border:.5px solid rgba(200,169,126,.2);border-radius:var(--r-lg);padding:38px 32px;width:360px;text-align:center;}
+.adm-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin-bottom:4px;}
+.adm-logo em{font-style:italic;}
+.adm-sub{font-size:10px;color:rgba(200,169,126,.42);letter-spacing:.1em;text-transform:uppercase;margin-bottom:26px;}
+.adm-inp{width:100%;font-size:13px;padding:10px 13px;background:rgba(255,255,255,.07);border:.5px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;margin-bottom:9px;text-align:center;}
+.adm-inp::placeholder{color:rgba(255,255,255,.22);}
+.btn-adm{width:100%;padding:11px;font-size:12px;font-weight:500;background:var(--gold);color:var(--ink);border:none;border-radius:8px;letter-spacing:.04em;margin-top:3px;}
+.btn-adm:hover{background:#d4b88e;}
+.btn-adm:disabled{opacity:.6;cursor:not-allowed;}
+.adm-err{font-size:11px;color:#f5a0a0;margin-bottom:8px;display:none;}
+.adm-hint{font-size:11px;color:rgba(255,255,255,.18);margin-top:14px;line-height:1.7;}
+.adm-hint code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;}
+
+/* ADMIN DASHBOARD */
+.adm-dash{background:var(--cream);min-height:100vh;padding:20px;}
+.adm-wrap{max-width:760px;margin:0 auto;}
+.adm-hero-bar{background:var(--ink);border-radius:var(--r-lg);padding:22px 26px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.adm-wm{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--gold);}
+.adm-wm em{font-style:italic;}
+.adm-wm small{font-size:10px;font-family:'Jost',sans-serif;color:rgba(200,169,126,.42);display:block;letter-spacing:.06em;}
+.btn-lo{font-size:11px;padding:5px 13px;border:.5px solid rgba(200,169,126,.28);color:rgba(200,169,126,.55);background:transparent;border-radius:6px;}
+.btn-lo:hover{color:var(--gold);}
+.adm-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px;}
+.atab{font-size:11px;font-weight:500;padding:6px 14px;border-radius:20px;border:.5px solid var(--border2);background:transparent;color:var(--muted);transition:all .2s;}
+.atab.on{background:var(--gold-d);color:#fff;border-color:var(--gold-d);}
+.asec{display:none;}
+.asec.on{display:block;}
+.acard{background:var(--white);border:.5px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:12px;}
+.acard-t{font-size:12px;font-weight:500;margin-bottom:12px;padding-bottom:9px;border-bottom:.5px solid var(--border);}
+.fr{display:grid;gap:9px;margin-bottom:10px;}
+.fr.c1{grid-template-columns:1fr;}
+.fr.c2{grid-template-columns:1fr 1fr;}
+.fr.c3{grid-template-columns:1fr 1fr 1fr;}
+.fl{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:.04em;display:flex;flex-direction:column;gap:4px;}
+.fi{font-size:12px;padding:7px 10px;border:.5px solid rgba(122,106,88,.22);border-radius:7px;background:var(--cream);color:var(--ink);}
+.fi:focus{outline:none;border-color:var(--gold);}
+.fsel{font-size:12px;padding:7px 10px;border:.5px solid rgba(122,106,88,.22);border-radius:7px;background:var(--cream);color:var(--ink);}
+.fta{font-size:12px;padding:7px 10px;border:.5px solid rgba(122,106,88,.22);border-radius:7px;background:var(--cream);color:var(--ink);resize:vertical;min-height:68px;}
+.f-acts{display:flex;gap:7px;margin-top:10px;}
+.btn-sv{padding:8px 18px;font-size:11px;font-weight:500;background:var(--gold-d);color:#fff;border:none;border-radius:7px;}
+.btn-sv:hover{background:var(--gold);}
+.btn-sv:disabled{opacity:.6;cursor:not-allowed;}
+.btn-cn{padding:8px 14px;font-size:11px;background:transparent;border:.5px solid rgba(122,106,88,.22);border-radius:7px;color:var(--muted);}
+.btn-an{font-size:11px;padding:6px 14px;border-radius:7px;border:.5px solid var(--gold-d);color:var(--gold-d);background:transparent;margin-bottom:9px;}
+.btn-an:hover{background:var(--gold-l);}
+.fw{display:none;background:var(--cream);border:.5px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.fw.on{display:block;}
+.btn-dl{font-size:10px;padding:4px 9px;border:.5px solid rgba(192,57,43,.38);color:#c0392b;background:transparent;border-radius:5px;flex-shrink:0;}
+.btn-dl:hover{background:#fdecea;}
+.btn-dl:disabled{opacity:.4;cursor:not-allowed;}
+.irow{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--cream);border:.5px solid var(--border);border-radius:7px;margin-bottom:5px;}
+.irow-info{flex:1;}
+.irow-name{font-size:12px;font-weight:500;}
+.irow-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.pill{display:inline-block;font-size:9px;padding:2px 7px;border-radius:20px;background:var(--gold-l);color:var(--gold-d);font-weight:500;margin-left:4px;}
+.tog{position:relative;width:38px;height:21px;}
+.tog input{opacity:0;width:0;height:0;}
+.tog-sl{position:absolute;inset:0;background:rgba(122,106,88,.22);border-radius:21px;transition:background .2s;}
+.tog-sl::before{content:'';position:absolute;width:15px;height:15px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s;}
+.tog input:checked+.tog-sl{background:var(--gold-d);}
+.tog input:checked+.tog-sl::before{transform:translateX(17px);}
+.tog-w{display:flex;align-items:center;gap:9px;}
+.bgsw-w{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.bgsw{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:border-color .2s;}
+.bgsw.on{border-color:var(--gold);}
+.info-box{font-size:11px;color:var(--muted);padding:8px 10px;background:var(--cream);border-radius:7px;border:.5px solid var(--border);line-height:1.6;margin-bottom:10px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:9px 22px;border-radius:20px;font-size:12px;font-weight:500;z-index:9999;display:none;white-space:nowrap;}
+.toast.ok{background:#1a3a1a;color:#a8d5a2;}
+.toast.err{background:#3a1a1a;color:#f5a0a0;}
+
+@media(max-width:768px){
+  .nav{padding:0 16px;}.nav-links{display:none;}
+  .sec{padding:48px 18px;}.h-ct{padding:0 18px 48px;}
+  .about-g{grid-template-columns:1fr;}.about-img2{display:none;}
+  .g-grid{grid-template-columns:1fr 1fr;}
+  .g-item:nth-child(1){grid-column:span 2;}.g-item:nth-child(5){grid-column:span 2;}
+  .res-g{grid-template-columns:1fr;}.rf.full{grid-column:1;}
+  .adm-wrap{padding:0;}.fr.c2,.fr.c3{grid-template-columns:1fr;}
+}
+</style>
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+
+<div id="ls"><div class="l-wm">Hide &amp; <em>Nip</em></div><div class="l-bar"></div></div>
+
+<!-- CUSTOMER SITE -->
+<div id="cSite" style="display:none">
+  <nav class="nav">
+    <div class="nav-logo">Hide &amp; <em>Nip</em></div>
+    <div class="nav-links">
+      <a data-s="#about">Tentang</a>
+      <a data-s="#gallery">Galeri</a>
+      <a data-s="#menu">Menu</a>
+      <a data-s="#music" id="navMu" style="display:none">Musik</a>
+      <a data-s="#reservation">Reservasi</a>
+    </div>
+    <button class="nav-res" data-s="#reservation">Reservasi Meja</button>
+  </nav>
+
+  <section class="hero" id="heroSec">
+    <div class="h-bg" id="hBg"></div>
+    <div class="h-ov"></div>
+    <div class="h-ct" id="hCt"></div>
+    <div class="h-arrs"><button class="h-arr" id="hPrev">&#8592;</button><button class="h-arr" id="hNext">&#8594;</button></div>
+    <div class="h-dots" id="hDots"></div>
+  </section>
+
+  <section class="sec" id="about" style="background:var(--white)">
+    <div class="about-g">
+      <div class="about-img-w" id="aImgW">
+        <div style="width:100%;height:460px;background:var(--gold-l);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:52px">☕</div>
+      </div>
+      <div class="about-tx">
+        <div class="about-tag">✦ Our Story</div>
+        <div class="s-lbl">Hide &amp; Nip Cafe</div>
+        <h2 class="s-title" id="aTitle">Tempat di Mana Rasa &amp; <em>Suasana</em> Menyatu</h2>
+        <div id="aDesc">
+          <p>Hide and Nip lahir dari kecintaan mendalam terhadap kopi specialty dan ruang yang hangat.</p>
+          <p>Berlokasi di jantung kota, kami menghadirkan biji kopi pilihan dari seluruh Nusantara.</p>
+        </div>
+        <div class="about-stats">
+          <div><span class="stat-n" id="stY">3+</span><span class="stat-l">Tahun Berdiri</span></div>
+          <div><span class="stat-n" id="stI">40+</span><span class="stat-l">Pilihan Menu</span></div>
+          <div><span class="stat-n" id="stO">8</span><span class="stat-l">Origin Kopi</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="gallery">
+    <div class="g-head">
+      <div class="s-lbl">Galeri</div>
+      <h2 class="s-title">Atmosfer <em>Hide &amp; Nip</em></h2>
+      <p class="s-desc">Setiap sudut dirancang untuk memberi pengalaman yang tak terlupakan.</p>
+    </div>
+    <div class="g-grid" id="gGrid"></div>
+  </section>
+
+  <section class="sec" id="menu" style="background:var(--white)">
+    <div class="menu-w">
+      <div class="s-lbl">Menu Kami</div>
+      <h2 class="s-title">Pilihan <em>Terbaik</em></h2>
+      <p class="s-desc">Dari espresso klasik hingga kreasi signature kami sendiri.</p>
+      <div class="m-tabs" id="mTabs"></div>
+      <div class="m-grid" id="mGrid"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="music" style="display:none;background:var(--ink)">
+    <div class="mu-in">
+      <div class="s-lbl" style="color:var(--gold)">Request Lagu</div>
+      <h2 class="s-title" style="color:#fff">Pilih Musik <em>Favoritmu</em></h2>
+      <p class="s-desc" style="color:rgba(255,255,255,.42);margin-bottom:26px">Tambahkan lagu dari YouTube atau SoundCloud.</p>
+      <div class="mu-box">
+        <div class="mu-src">
+          <button class="msrc yt on" id="ytTab">YouTube</button>
+          <button class="msrc sc" id="scTab">SoundCloud</button>
+        </div>
+        <div class="mu-row">
+          <input type="text" id="urlInp" placeholder="Paste link YouTube atau SoundCloud..."/>
+          <button class="mu-add" id="addSong">+ Tambah</button>
+        </div>
+        <iframe id="ytf" allowfullscreen allow="autoplay;encrypted-media"></iframe>
+        <iframe id="scf" scrolling="no" allow="autoplay"></iframe>
+        <div class="q-hdr">Antrian Lagu</div>
+        <div id="qCont"><div class="q-empty">Belum ada lagu — paste link di atas untuk mulai</div></div>
+        <div class="mu-hint">YouTube: https://youtu.be/xxxxx &nbsp;·&nbsp; SoundCloud: https://soundcloud.com/artist/track</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="reservation">
+    <div class="res-w">
+      <div class="s-lbl">Reservasi</div>
+      <h2 class="s-title">Pesan <em>Meja</em> Sekarang</h2>
+      <p class="s-desc">Pastikan meja favoritmu sudah tersedia saat kamu tiba.</p>
+      <div class="res-f">
+        <div class="res-g">
+          <div class="rf"><div class="rl">Nama Lengkap</div><input class="ri" id="rName" placeholder="Nama kamu"/></div>
+          <div class="rf"><div class="rl">No. HP / WA</div><input class="ri" type="tel" id="rPhone" placeholder="08xxxxxxxxxx"/></div>
+          <div class="rf"><div class="rl">Tanggal</div><input class="ri" type="date" id="rDate"/></div>
+          <div class="rf"><div class="rl">Jam</div>
+            <select class="rs" id="rTime"><option value="">Pilih jam</option>
+              <option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option>
+              <option>12:00</option><option>13:00</option><option>14:00</option><option>15:00</option>
+              <option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option>
+              <option>20:00</option><option>21:00</option>
+            </select>
+          </div>
+          <div class="rf"><div class="rl">Jumlah Tamu</div>
+            <select class="rs" id="rPax"><option value="">Pilih jumlah</option>
+              <option>1 orang</option><option>2 orang</option><option>3 orang</option><option>4 orang</option>
+              <option>5 orang</option><option>6 orang</option><option>7–10 orang</option><option>10+ orang</option>
+            </select>
+          </div>
+          <div class="rf"><div class="rl">Area</div>
+            <select class="rs" id="rArea"><option value="">Pilih area</option>
+              <option>Indoor</option><option>Outdoor</option><option>Private Room</option>
+            </select>
+          </div>
+          <div class="rf full"><div class="rl">Catatan Khusus</div><textarea class="rta" id="rNote" placeholder="Ulang tahun, kursi bayi, alergi makanan, dll."></textarea></div>
+        </div>
+        <button class="btn-res" id="btnRes">📱 Kirim Reservasi via WhatsApp</button>
+        <div class="res-note">Reservasi akan dikirim ke WhatsApp cafe. Tim kami konfirmasi dalam 5–10 menit.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="ft-logo">Hide &amp; <em>Nip</em></div>
+    <p id="ftAddr">Jl. Contoh No. 123, Kota · Buka setiap hari 08:00–22:00</p>
+    <p style="margin-top:6px;font-size:10px;">© 2025 Hide and Nip Cafe. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ADMIN SITE -->
+<div id="aSite" style="display:none">
+  <div id="aLogin" class="adm-lp">
+    <div class="adm-lb">
+      <div class="adm-logo">Hide &amp; <em>Nip</em></div>
+      <div class="adm-sub">Admin Panel</div>
+      <div class="adm-err" id="aErr">Email atau password salah.</div>
+      <input class="adm-inp" type="email" id="aEmail" placeholder="Email admin" autocomplete="email"/>
+      <input class="adm-inp" type="password" id="aPass" placeholder="Password" autocomplete="current-password"/>
+      <button class="btn-adm" id="btnLogin">Masuk</button>
+      <div class="adm-hint" id="aHint">Demo: <code>admin@hideandnip.com</code><br/>Password: <code>hideandnip2025</code></div>
+    </div>
+  </div>
+
+  <div id="aDash" class="adm-dash" style="display:none">
+    <div class="adm-wrap">
+      <div class="adm-hero-bar">
+        <div><div class="adm-wm">Hide &amp; <em>Nip</em><small>Admin Panel · v3.0</small></div></div>
+        <button class="btn-lo" id="btnLo">Logout</button>
+      </div>
+      <div class="adm-tabs">
+        <button class="atab on" data-t="hero">Hero Slider</button>
+        <button class="atab" data-t="menu">Menu</button>
+        <button class="atab" data-t="gallery">Galeri</button>
+        <button class="atab" data-t="music">Musik</button>
+        <button class="atab" data-t="settings">Pengaturan</button>
+      </div>
+
+      <!-- HERO TAB -->
+      <div class="asec on" id="at-hero">
+        <div class="acard">
+          <div class="acard-t">Slide Events (Hero Slider)</div>
+          <div id="heroList"></div>
+          <button class="btn-an" id="btnAHero">+ Tambah Slide Baru</button>
+          <div class="fw" id="heroFw">
+            <div class="fr c2">
+              <div class="fl">Judul<input class="fi" id="hTitle" placeholder="Jazz Night with..."/></div>
+              <div class="fl">Badge<input class="fi" id="hBadge" placeholder="Live Tonight · 20:00"/></div>
+            </div>
+            <div class="fr c1">
+              <div class="fl">Sub-teks / Tanggal<input class="fi" id="hSub" placeholder="Sabtu, 5 April · Free entry"/></div>
+            </div>
+            <div class="fr c1">
+              <div class="fl">Gambar Background
+                <div class="img-up">
+                  <div class="img-up-zone"><input type="file" id="hImgFile" accept="image/*"/><div class="img-up-icon">🖼</div><div class="img-up-txt"><strong>Klik atau drag</strong> gambar (maks 5MB)</div></div>
+                  <img class="img-preview" id="hImgPrev"/>
+                  <div class="img-sep">— atau paste URL —</div>
+                  <input class="fi" id="hImg" placeholder="https://... (kosongkan = pakai warna)"/>
+                  <div class="img-status" id="hImgSt"></div>
+                </div>
+              </div>
+            </div>
+            <div class="fr c1">
+              <div class="fl">Warna Latar (jika tanpa gambar)<div class="bgsw-w" id="hSwatches"></div></div>
+            </div>
+            <div class="f-acts">
+              <button class="btn-sv" id="btnSvHero">Simpan Slide</button>
+              <button class="btn-cn" id="btnCnHero">Batal</button>
+            </div>
+          </div>
+        </div>
+        <div class="acard">
+          <div class="acard-t">Background Utama Website</div>
+          <div class="fr c1">
+            <div class="fl">Gambar Background
+              <div class="img-up">
+                <div class="img-up-zone"><input type="file" id="bgFile" accept="image/*"/><div class="img-up-icon">🌅</div><div class="img-up-txt"><strong>Klik atau drag</strong> gambar background</div></div>
+                <img class="img-preview" id="bgPrev"/>
+                <div class="img-sep">— atau paste URL —</div>
+                <input class="fi" id="mainBg" placeholder="https://... (kosongkan = cream default)"/>
+                <div class="img-status" id="bgSt"></div>
+              </div>
+            </div>
+          </div>
+          <div class="f-acts"><button class="btn-sv" id="btnSvBg">Terapkan</button></div>
+        </div>
+      </div>
+
+      <!-- MENU TAB -->
+      <div class="asec" id="at-menu">
+        <div class="acard">
+          <div class="acard-t">Item Menu Makanan &amp; Minuman</div>
+          <div id="menuAList"></div>
+          <button class="btn-an" id="btnAMenu">+ Tambah Item Menu</button>
+          <div class="fw" id="menuFw">
+            <div class="fr c3">
+              <div class="fl">Nama<input class="fi" id="mName" placeholder="Cappuccino"/></div>
+              <div class="fl">Emoji<input class="fi" id="mEmoji" placeholder="☕" maxlength="2"/></div>
+              <div class="fl">Harga<input class="fi" id="mPrice" placeholder="Rp 38.000"/></div>
+            </div>
+            <div class="fr c2">
+              <div class="fl">Deskripsi<input class="fi" id="mDesc" placeholder="Espresso + steamed milk"/></div>
+              <div class="fl">Kategori<select class="fsel" id="mCat"><option value="coffee">Kopi</option><option value="noncoffee">Non-Kopi</option><option value="food">Makanan</option><option value="snack">Snack &amp; Dessert</option></select></div>
+            </div>
+            <div class="fr c1">
+              <div class="fl">Foto Item (opsional)
+                <div class="img-up">
+                  <div class="img-up-zone"><input type="file" id="mImgFile" accept="image/*"/><div class="img-up-icon">📸</div><div class="img-up-txt"><strong>Klik atau drag</strong> foto menu</div></div>
+                  <img class="img-preview" id="mImgPrev"/>
+                  <div class="img-sep">— atau paste URL —</div>
+                  <input class="fi" id="mImg" placeholder="https://..."/>
+                  <div class="img-status" id="mImgSt"></div>
+                </div>
+              </div>
+            </div>
+            <div class="f-acts">
+              <button class="btn-sv" id="btnSvMenu">Simpan Item</button>
+              <button class="btn-cn" id="btnCnMenu">Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GALLERY TAB -->
+      <div class="asec" id="at-gallery">
+        <div class="acard">
+          <div class="acard-t">Foto Ruangan &amp; Suasana Cafe</div>
+          <div id="gallAList"></div>
+          <button class="btn-an" id="btnAGall">+ Tambah Foto</button>
+          <div class="fw" id="gallFw">
+            <div class="fr c1">
+              <div class="fl">Foto Cafe
+                <div class="img-up">
+                  <div class="img-up-zone"><input type="file" id="gFile" accept="image/*"/><div class="img-up-icon">🏠</div><div class="img-up-txt"><strong>Klik atau drag</strong> foto ruangan</div></div>
+                  <img class="img-preview" id="gPrev"/>
+                  <div class="img-sep">— atau paste URL —</div>
+                  <input class="fi" id="gUrl" placeholder="https://images.unsplash.com/..."/>
+                  <div class="img-status" id="gSt"></div>
+                </div>
+              </div>
+            </div>
+            <div class="fr c1"><div class="fl">Keterangan<input class="fi" id="gAlt" placeholder="Area indoor, bar, dll."/></div></div>
+            <div class="f-acts">
+              <button class="btn-sv" id="btnSvGall">Simpan Foto</button>
+              <button class="btn-cn" id="btnCnGall">Batal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUSIC TAB -->
+      <div class="asec" id="at-music">
+        <div class="acard">
+          <div class="acard-t">Pengaturan Fitur Pemutar Musik</div>
+          <div class="tog-w" style="margin-bottom:14px">
+            <label class="tog"><input type="checkbox" id="togMu" checked/><div class="tog-sl"></div></label>
+            <span style="font-size:12px" id="togLbl">Fitur musik <strong>aktif</strong></span>
+          </div>
+          <div class="fr c1"><div class="fl">Token QR Code<input class="fi" id="qrTok" placeholder="HIDEANDNIP"/></div></div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:10px">QR URL: <code id="qrPrev" style="background:var(--cream);padding:2px 7px;border-radius:4px;font-size:10px"></code></p>
+          <div class="f-acts"><button class="btn-sv" id="btnSvMu">Simpan Pengaturan Musik</button></div>
+        </div>
+        <!-- <div class="acard">
+          <div class="acard-t">Host Player (Pemutar Musik Utama)</div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Biarkan halaman admin ini terbuka agar lagu bisa diputar ke speaker cafe dan <strong>auto-next</strong> otomatis.</p>
+          <div style="background:var(--ink);border-radius:8px;overflow:hidden;margin-bottom:10px;">
+            <div id="ytAdminWrap" style="display:none;"><div id="ytfAdmin"></div></div>
+            <iframe id="scfAdmin" allow="autoplay" style="width:100%;height:160px;border:none;display:none;"></iframe>
+          </div>
+          <button class="btn-sv" id="btnNextAd">⏭ Play Next Song (Skip)</button>
+        </div> -->
+        <!-- <div class="acard">
+          <div class="acard-t">Status Sinkronisasi</div>
+          <div class="info-box" id="rtStatus">Memuat...</div>
+        </div> -->
+        <div class="acard">
+          <div class="acard-t">Pemutar Musik & Antrian (Host)</div>
+          
+          <div class="tog-w" style="margin-bottom:14px">
+            <label class="tog"><input type="checkbox" id="togLoop" checked/><div class="tog-sl"></div></label>
+            <span style="font-size:12px">Mode <strong>Looping</strong> (Ulangi antrian dari awal jika habis)</span>
+          </div>
+
+          <div style="background:#1A1410; padding:12px; border-radius:8px; margin-bottom:14px;">
+            <div id="ytAdWrap" style="display:none;width:100%;height:195px;border-radius:6px;overflow:hidden;"><div id="ytfAdmin"></div></div>
+            <iframe id="scfAdmin" allow="autoplay" style="width:100%;height:160px;border:none;border-radius:6px;display:none;"></iframe>
+          </div>
+
+          <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Klik lagu di bawah untuk memutar, atau biarkan auto-next bekerja.</p>
+          <div id="aQList"><p style="font-size:12px;color:var(--muted)">Antrian kosong.</p></div>
+          <button class="btn-dl" id="btnClearQ" style="margin-top:8px">🗑 Hapus Semua Antrian</button>
+        </div>
+        <div class="acard">
+          <div class="acard-t">Kelola Antrian Lagu</div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Admin bisa hapus lagu. Customer tidak bisa menghapus antrian.</p>
+          <div id="aQList"><p style="font-size:12px;color:var(--muted)">Antrian kosong.</p></div>
+          <button class="btn-dl" id="btnClearQ" style="margin-top:8px">🗑 Hapus Semua Antrian</button>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div class="asec" id="at-settings">
+        <div class="acard">
+          <div class="acard-t">Informasi &amp; Konten Cafe</div>
+          <div class="fr c2">
+            <div class="fl">Tahun Berdiri<input class="fi" id="sY" placeholder="3+"/></div>
+            <div class="fl">Jml. Menu<input class="fi" id="sI" placeholder="40+"/></div>
+          </div>
+          <div class="fr c2">
+            <div class="fl">Origin Kopi<input class="fi" id="sO" placeholder="8"/></div>
+            <div class="fl">No. WA Cafe (tanpa +62)<input class="fi" id="sWa" placeholder="81234567890"/></div>
+          </div>
+          <div class="fr c1"><div class="fl">Alamat &amp; Jam Buka (footer)<input class="fi" id="sAddr" placeholder="Jl. Contoh No. 123 · Buka 08:00–22:00"/></div></div>
+          <div class="fr c1"><div class="fl">Judul About<input class="fi" id="sAT" placeholder="Tempat di Mana Rasa & Suasana Menyatu"/></div></div>
+          <div class="fr c1"><div class="fl">Paragraf About 1<textarea class="fta" id="sA1" placeholder="Deskripsi paragraf 1..."></textarea></div></div>
+          <div class="fr c1"><div class="fl">Paragraf About 2<textarea class="fta" id="sA2" placeholder="Deskripsi paragraf 2..."></textarea></div></div>
+          <div class="f-acts"><button class="btn-sv" id="btnSvSet">Simpan Semua</button></div>
+        </div>
+        <div class="acard">
+          <div class="acard-t">Status Integrasi</div>
+          <div class="info-box" id="cldInfo">Memuat...</div>
+        </div>
+        <div class="acard">
+          <div class="acard-t">Ganti Password Admin</div>
+          <div class="fr c2">
+            <div class="fl">Password Baru<input class="fi" type="password" id="pw1" placeholder="Password baru"/></div>
+            <div class="fl">Konfirmasi<input class="fi" type="password" id="pw2" placeholder="Ulangi password"/></div>
+          </div>
+          <div class="f-acts"><button class="btn-sv" id="btnChPw">Ganti Password</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb">
+  <button class="lb-ar pv" id="lbPv">&#8592;</button>
+  <div class="lb-in"><button class="lb-cl" id="lbCl">✕</button><img class="lb-img" id="lbImg" src="" alt=""/></div>
+  <button class="lb-ar nx" id="lbNx">&#8594;</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(async function(){
+// ── Safety net ────────────────────────────────────────────
+const _safe=setTimeout(()=>{const e=document.getElementById("ls");if(e){e.style.opacity="0";setTimeout(()=>e.style.display="none",450);}},8000);
+
+// ── Firebase SDK ──────────────────────────────────────────
+let _initApp,_getAuth,_signIn,_signOut,_onAuth,
+    _getFs,_col,_doc,_getDocs,_addDoc,_delDoc,_setDoc,_getDoc,_query,_orderBy,
+    _getRtdb,_rtRef,_rtSet,_rtOnVal,_rtRemove,_rtPush,_rtOff;
+try{
+  const[A,B,C,D]=await Promise.all([
+    import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"),
+    import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"),
+    import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"),
+    import("https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js")
+  ]);
+  _initApp=A.initializeApp;
+  _getAuth=B.getAuth;_signIn=B.signInWithEmailAndPassword;_signOut=B.signOut;_onAuth=B.onAuthStateChanged;
+  _getFs=C.getFirestore;_col=C.collection;_doc=C.doc;_getDocs=C.getDocs;
+  _addDoc=C.addDoc;_delDoc=C.deleteDoc;_setDoc=C.setDoc;_getDoc=C.getDoc;
+  _query=C.query;_orderBy=C.orderBy;
+  _getRtdb=D.getDatabase;_rtRef=D.ref;_rtSet=D.set;_rtOnVal=D.onValue;
+  _rtRemove=D.remove;_rtPush=D.push;_rtOff=D.off;
+}catch(e){console.warn("Firebase SDK:",e.message);}
+
+// ════════════════════════════════════════════════════════
+// ★ KONFIGURASI ★ — ganti semua nilai YOUR_xxx
+// ════════════════════════════════════════════════════════
+const FB={
+  apiKey:"AIzaSyDkUGcAj_wge9lrtyEWlMY3UJ1VSF4xYhY",
+  authDomain:"hide-and-nip-cafe.firebaseapp.com",
+  projectId:"hide-and-nip-cafe",
+  storageBucket:"hide-and-nip-cafe.firebasestorage.app",
+  messagingSenderId: "1035445591349",
+  appId:"1:1035445591349:web:54b75c679b7be158e3407c",
+  databaseURL:"https://hide-and-nip-cafe-default-rtdb.asia-southeast1.firebasedatabase.app/" // ← TAMBAHAN untuk musik sync
+};
+const CLD={cloudName:"dz0qsdexq",preset:"hideandnip"};
+const ADMIN_PATH="admincafehideandnip";
+const DEF_WA="6281234567890";
+const DEF_TOK="HIDEANDNIP";
+const DEMO_EMAIL="admin@hideandnip.com";
+const DEMO_PASS="hideandnip2025";
+
+// ── Flags ─────────────────────────────────────────────────
+const IS_MOCK  = FB.apiKey==="YOUR_API_KEY"||typeof _initApp!=="function";
+const CLD_OK   = CLD.cloudName!=="YOUR_CLOUD_NAME";
+const RT_OK    = !IS_MOCK&&typeof _getRtdb==="function"&&!FB.databaseURL.includes("YOUR_PROJECT");
+
+// ── Demo data ─────────────────────────────────────────────
+const DD={
+  settings:{wa:DEF_WA,qrToken:DEF_TOK,musicEnabled:true,mainBg:"",
+    address:"Jl. Contoh No. 123, Kota · Buka setiap hari 08:00–22:00",
+    aboutTitle:"Tempat di Mana Rasa & Suasana Menyatu",
+    about1:"Hide and Nip lahir dari kecintaan mendalam terhadap kopi specialty dan ruang yang hangat.",
+    about2:"Berlokasi di jantung kota, kami menghadirkan biji kopi pilihan dari seluruh Nusantara.",
+    statYear:"3+",statItems:"40+",statOrigins:"8",adminPassword:DEMO_PASS},
+  events:[
+    {id:"e1",title:"Jazz Night with The Groove Cats",badge:"Live Tonight · 20:00",sub:"Sabtu, 29 Maret 2026 — Free entry",img:"",bg:"linear-gradient(150deg,#1a0a0a,#4a1a1a)",order:1},
+    {id:"e2",title:"Specialty Brew Workshop",badge:"Sunday Special",sub:"Minggu, 30 Maret · Rp 175.000/orang",img:"",bg:"linear-gradient(150deg,#0a0f1a,#1a2a4a)",order:2},
+    {id:"e3",title:"Open Mic & Spoken Word",badge:"Coming Up · 5 April",sub:"Jumat malam, 20:00",img:"",bg:"linear-gradient(150deg,#0a1a0a,#1a3a1a)",order:3}
+  ],
+  menu:[
+    {id:"m1",cat:"coffee",emoji:"☕",name:"Espresso",desc:"Single origin Toraja",price:"Rp 28.000",img:"",order:1},
+    {id:"m2",cat:"coffee",emoji:"🥛",name:"Flat White",desc:"Double ristretto + steamed milk",price:"Rp 38.000",img:"",order:2},
+    {id:"m3",cat:"coffee",emoji:"🧊",name:"Cold Brew",desc:"Steeped 18 jam",price:"Rp 40.000",img:"",order:3},
+    {id:"m4",cat:"coffee",emoji:"🍮",name:"Kopi Susu Signature",desc:"Kopi lokal + gula aren",price:"Rp 32.000",img:"",order:4},
+    {id:"m5",cat:"noncoffee",emoji:"🍵",name:"Matcha Latte",desc:"Uji matcha grade A",price:"Rp 42.000",img:"",order:5},
+    {id:"m6",cat:"noncoffee",emoji:"🧋",name:"Taro Milk Tea",desc:"Taro asli + boba",price:"Rp 38.000",img:"",order:6},
+    {id:"m7",cat:"noncoffee",emoji:"🍋",name:"Yuzu Lemonade",desc:"Yuzu + soda + madu",price:"Rp 35.000",img:"",order:7},
+    {id:"m8",cat:"food",emoji:"🥐",name:"Croissant Keju",desc:"Dipanggang segar tiap pagi",price:"Rp 32.000",img:"",order:8},
+    {id:"m9",cat:"food",emoji:"🍳",name:"Egg Benedict",desc:"Sourdough, hollandaise, bayam",price:"Rp 68.000",img:"",order:9},
+    {id:"m10",cat:"food",emoji:"🥗",name:"Smoked Salmon Bowl",desc:"Brown rice, avocado, edamame",price:"Rp 78.000",img:"",order:10},
+    {id:"m11",cat:"snack",emoji:"🍰",name:"Burnt Cheesecake",desc:"Basque style, per slice",price:"Rp 45.000",img:"",order:11},
+    {id:"m12",cat:"snack",emoji:"🍫",name:"Choco Lava",desc:"Warm, served with ice cream",price:"Rp 48.000",img:"",order:12}
+  ],
+  gallery:[
+    {id:"g1",url:"https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=800&q=80",alt:"Area utama cafe",order:1},
+    {id:"g2",url:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",alt:"Bar espresso",order:2},
+    {id:"g3",url:"https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80",alt:"Kopi specialty",order:3},
+    {id:"g4",url:"https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80",alt:"Outdoor area",order:4},
+    {id:"g5",url:"https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800&q=80",alt:"Latte art",order:5}
+  ]
+};
+
+// ── Firebase instances ────────────────────────────────────
+let _app,_auth,_fs,_rtdb;
+if(!IS_MOCK){
+  try{
+    _app=_initApp(FB);
+    _auth=_getAuth(_app);
+    _fs=_getFs(_app);
+    if(RT_OK) _rtdb=_getRtdb(_app);
+  }catch(e){console.error("Firebase init:",e);}
+}
+
+// ════════════════════════════════════════════════════════
+// DATABASE LAYER
+// KEY FIX: check auth before write, fallback gracefully
+// ════════════════════════════════════════════════════════
+const DB={
+  async read(colName){
+    if(!_fs) return (DD[colName]||[]).map(x=>({...x}));
+    try{
+      // try ordered first, fallback to unordered
+      let docs;
+      try{
+        const snap=await _getDocs(_query(_col(_fs,colName),_orderBy("order")));
+        docs=snap.docs.map(d=>({id:d.id,...d.data()}));
+      }catch{
+        const snap=await _getDocs(_col(_fs,colName));
+        docs=snap.docs.map(d=>({id:d.id,...d.data()}));
+        docs.sort((a,b)=>(a.order||0)-(b.order||0));
+      }
+      return docs;
+    }catch(e){
+      console.warn("DB.read fallback:",e.message);
+      return (DD[colName]||[]).map(x=>({...x}));
+    }
+  },
+  async readSettings(){
+    if(!_fs) return {...DD.settings};
+    try{
+      const snap=await _getDoc(_doc(_fs,"settings","main"));
+      return (snap.exists()&&Object.keys(snap.data()).length)?snap.data():{...DD.settings};
+    }catch(e){return {...DD.settings};}
+  },
+  // KEY FIX: always include order field, verify we're authed before write
+  async write(colName,data){
+    const payload={...data,order:data.order||Date.now()};
+    // Demo mode
+    if(!_fs){
+      const id=colName[0]+Date.now();
+      DD[colName].push({id,...payload});
+      return id;
+    }
+    // Production — verify auth first
+    if(!_auth?.currentUser){
+      throw new Error("Sesi login habis. Silakan login ulang.");
+    }
+    const ref=await _addDoc(_col(_fs,colName),payload);
+    return ref.id;
+  },
+  async remove(colName,id){
+    if(!_fs){DD[colName]=DD[colName].filter(i=>i.id!==id);return;}
+    if(!_auth?.currentUser) throw new Error("Tidak terautentikasi.");
+    await _delDoc(_doc(_fs,colName,id));
+  },
+  async saveSettings(data){
+    if(!_fs){Object.assign(DD.settings,data);return;}
+    if(!_auth?.currentUser) throw new Error("Tidak terautentikasi.");
+    await _setDoc(_doc(_fs,"settings","main"),data,{merge:true});
+  }
+};
+
+// ── Auth layer ────────────────────────────────────────────
+const Auth={
+  async login(email,pass){
+    if(!_auth){
+      if(email===DEMO_EMAIL&&pass===DD.settings.adminPassword) return true;
+      throw new Error("wrong");
+    }
+    await _signIn(_auth,email,pass);
+    return true;
+  },
+  async logout(){if(_auth) await _signOut(_auth);},
+  isLoggedIn(){return _auth?!!_auth.currentUser:!!window.__adm;}
+};
+
+// ── Realtime queue ────────────────────────────────────────
+const QPATH="music/queue",PPATH="music/playing";
+let _qUnsub=null,_pUnsub=null;
+const RT={
+  subscribe(onQ,onP){
+    if(!_rtdb)return;
+    // clean old
+    if(_qUnsub){_rtOff(_rtRef(_rtdb,QPATH));_qUnsub=null;}
+    if(_pUnsub){_rtOff(_rtRef(_rtdb,PPATH));_pUnsub=null;}
+    _qUnsub=_rtOnVal(_rtRef(_rtdb,QPATH),snap=>{
+      const v=snap.val();
+      if(!v){onQ([]);return;}
+      const arr=Object.entries(v).map(([k,v])=>({...v,_key:k})).sort((a,b)=>(a.order||0)-(b.order||0));
+      onQ(arr);
+    });
+    _pUnsub=_rtOnVal(_rtRef(_rtdb,PPATH),snap=>onP(snap.val()||null));
+  },
+  async push(item){
+    if(!_rtdb)return "l"+Date.now();
+    const r=await _rtPush(_rtRef(_rtdb,QPATH),{...item,order:Date.now()});
+    return r.key;
+  },
+  async remove(key){if(_rtdb)await _rtRemove(_rtRef(_rtdb,`${QPATH}/${key}`));},
+  async clear(){if(_rtdb)await _rtRemove(_rtRef(_rtdb,QPATH));},
+  async setPlaying(item){
+    if(!_rtdb)return;
+    if(!item)await _rtRemove(_rtRef(_rtdb,PPATH));
+    else await _rtSet(_rtRef(_rtdb,PPATH),{...item,ts:Date.now()});
+  }
+};
+
+// ── Image upload ──────────────────────────────────────────
+async function uploadImg(file,stEl){
+  if(!file||!file.type.startsWith("image/"))return null;
+  if(file.size>5*1024*1024){setSt(stEl,"❌ Maks 5MB","err");return null;}
+  if(CLD_OK){
+    setSt(stEl,"⏳ Mengupload ke Cloudinary...","prog");
+    try{
+      const fd=new FormData();
+      fd.append("file",file);fd.append("upload_preset",CLD.preset);fd.append("folder","hideandnip");
+      const r=await fetch(`https://api.cloudinary.com/v1_1/${CLD.cloudName}/image/upload`,{method:"POST",body:fd});
+      const j=await r.json();
+      if(j.secure_url){setSt(stEl,"✅ Upload berhasil!","ok");return j.secure_url;}
+      throw new Error(j.error?.message||"Gagal");
+    }catch(e){setSt(stEl,"❌ "+e.message,"err");return null;}
+  }
+  setSt(stEl,"⏳ Memproses (mode lokal)...","prog");
+  return new Promise(res=>{
+    const img=new Image(),fr=new FileReader();
+    fr.onload=ev=>{
+      img.onload=()=>{
+        const M=900;let w=img.width,h=img.height;
+        if(w>M){h=Math.round(h*M/w);w=M;}if(h>M){w=Math.round(w*M/h);h=M;}
+        const c=document.createElement("canvas");c.width=w;c.height=h;
+        c.getContext("2d").drawImage(img,0,0,w,h);
+        setSt(stEl,"✅ Siap (lokal — setup Cloudinary untuk URL permanen)","ok");
+        res(c.toDataURL("image/jpeg",0.8));
+      };img.src=ev.target.result;
+    };fr.readAsDataURL(file);
+  });
+}
+function setSt(el,msg,t){if(!el)return;el.textContent=msg;el.className="img-status "+(t==="ok"?"ok":t==="prog"?"prog":"err");}
+function bindUpload(fileId,prevId,urlId,stId){
+  const fi=g(fileId);if(!fi||fi._u)return;fi._u=true;
+  fi.onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    const fr=new FileReader();
+    fr.onload=ev=>{const p=g(prevId);if(p){p.src=ev.target.result;p.classList.add("show");}};
+    fr.readAsDataURL(f);
+    const url=await uploadImg(f,g(stId));
+    if(url){const u=g(urlId);if(u)u.value=url;}
+  };
+  const zone=fi.closest(".img-up-zone");
+  if(zone&&!zone._u){
+    zone._u=true;
+    zone.ondragover=e=>{e.preventDefault();zone.classList.add("drag");};
+    zone.ondragleave=()=>zone.classList.remove("drag");
+    zone.ondrop=e=>{e.preventDefault();zone.classList.remove("drag");const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);fi.files=dt.files;fi.onchange({target:fi});}};
+  }
+  const ui=g(urlId);
+  if(ui&&!ui._u){ui._u=true;ui.oninput=()=>{const p=g(prevId);if(p&&ui.value){p.src=ui.value;p.classList.add("show");}};}
+}
+function clearUpload(fileId,prevId,stId,urlId){
+  const fi=g(fileId);if(fi){fi.value="";fi._u=false;}
+  const p=g(prevId);if(p){p.src="";p.classList.remove("show");}
+  const s=g(stId);if(s){s.textContent="";s.className="img-status";}
+  const u=g(urlId);if(u)u.value="";
+}
+
+// ── App state ─────────────────────────────────────────────
+const S={
+  events:[],menu:[],gallery:[],settings:{},
+  hIdx:0,hTimer:null,hBg:"linear-gradient(150deg,#1a0a0a,#4a1a1a)",
+  lbImgs:[],lbIdx:0,queue:[],nowPlaying:null,src:"yt",
+  isQR:false
+};
+const BG=["linear-gradient(150deg,#1a0a0a,#4a1a1a)","linear-gradient(150deg,#0a0f1a,#1a2a4a)","linear-gradient(150deg,#0a1a0a,#1a3a1a)","linear-gradient(150deg,#1a0f00,#3a2000)","linear-gradient(150deg,#100a1a,#2a1a4a)","linear-gradient(150deg,#0a0a0a,#2a2a2a)"];
+const CAT={coffee:"Kopi",noncoffee:"Non-Kopi",food:"Makanan",snack:"Snack & Dessert"};
+
+// ── Utils ─────────────────────────────────────────────────
+const g=id=>document.getElementById(id);
+const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function toast(m,t="ok"){const el=g("toast");el.textContent=m;el.className="toast "+t;el.style.display="block";clearTimeout(el._t);el._t=setTimeout(()=>el.style.display="none",2800);}
+function scr(id){document.querySelector(id)?.scrollIntoView({behavior:"smooth"});}
+function fadeLS(){const e=g("ls");if(e){e.classList.add("fade");setTimeout(()=>e.style.display="none",450);}}
+function route(){
+  const path=location.pathname.replace(/^\/|\/$/g,"");
+  const p=new URLSearchParams(location.search);
+  return{isAdmin:path===ADMIN_PATH||p.get("admin")==="1",qr:p.get("q")||""};
+}
+
+// ── ENGINE AUTO-NEXT MUSIC ADMIN ──────────────────────────
+let ytAdPlayer = null;
+let isYtReady = false;
+
+window.onYouTubeIframeAPIReady = function() {
+  ytAdPlayer = new YT.Player('ytfAdmin', {
+    height: '100%', width: '100%', videoId: '',
+    playerVars: { 'autoplay': 1, 'rel': 0, 'controls': 1 },
+    events: {
+      'onReady': () => { 
+        isYtReady = true; 
+        if(S.nowPlaying && S.nowPlaying.type==='yt') playAdminYt(S.nowPlaying.id); 
+      },
+      'onStateChange': (e) => { 
+        // Jika status = 0 (Lagu Berakhir), jalankan fungsi Next
+        if(e.data === YT.PlayerState.ENDED) playNextSong(); 
+      }
+    }
+  });
+};
+
+function playAdminYt(vid) {
+  if(isYtReady && ytAdPlayer && ytAdPlayer.loadVideoById) {
+    ytAdPlayer.loadVideoById(vid);
+  }
+}
+
+async function playNextSong(){
+  if(!S.queue.length) return;
+  const nk = S.nowPlaying?._key || S.nowPlaying?.id;
+  const idx = S.queue.findIndex(i => i._key === nk || i.id === nk);
+  
+  if(idx >= 0 && idx + 1 < S.queue.length) {
+    // Putar lagu selanjutnya di antrian
+    const nextItem = S.queue[idx+1];
+    if(RT_OK) await RT.setPlaying(nextItem);
+    else { S.nowPlaying = nextItem; renderAdminPlayer(nextItem); renderAdminQ(); }
+  } else {
+    // Jika antrian habis, cek status Checkbox Looping
+    const isLooping = g("togLoop")?.checked;
+    if(isLooping && S.queue.length > 0) {
+      // Ulangi dari lagu pertama
+      const firstItem = S.queue[0];
+      if(RT_OK) await RT.setPlaying(firstItem);
+      else { S.nowPlaying = firstItem; renderAdminPlayer(firstItem); renderAdminQ(); }
+    } else {
+      // Berhenti
+      if(RT_OK) await RT.setPlaying(null);
+      else { S.nowPlaying = null; renderAdminPlayer(null); renderAdminQ(); }
+    }
+  }
+}
+
+function renderAdminPlayer(item) {
+  const yw = g("ytAdWrap"), sw = g("scfAdmin");
+  if(!item) {
+     if(yw) yw.style.display="none";
+     if(sw) sw.style.display="none";
+     if(isYtReady && ytAdPlayer && ytAdPlayer.stopVideo) ytAdPlayer.stopVideo();
+     return;
+  }
+  if(item.type==="yt"){
+     if(sw) sw.style.display="none";
+     if(yw) yw.style.display="block";
+     playAdminYt(item.id);
+  } else {
+     if(yw) yw.style.display="none";
+     if(isYtReady && ytAdPlayer && ytAdPlayer.stopVideo) ytAdPlayer.stopVideo();
+     if(sw) {
+       sw.style.display="block";
+       sw.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(item.url)}&color=%23C8A97E&auto_play=true`;
+       
+       // Setup Soundcloud Auto-next
+       if(!window.scAdWidget && window.SC) {
+          window.scAdWidget = SC.Widget('scfAdmin');
+          window.scAdWidget.bind(SC.Widget.Events.FINISH, playNextSong);
+       } else if (window.scAdWidget) {
+          window.scAdWidget.load(item.url, {auto_play: true});
+       }
+     }
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// MAIN
+// ════════════════════════════════════════════════════════
+async function main(){
+  const{isAdmin,qr}=route();
+  try{
+    [S.events,S.menu,S.gallery,S.settings]=await Promise.all([
+      DB.read("events"),DB.read("menu"),DB.read("gallery"),DB.readSettings()
+    ]);
+  }catch(e){console.error("Load:",e);}
+  if(!S.settings||!Object.keys(S.settings).length)S.settings={...DD.settings};
+  S.isQR=qr.toUpperCase()===(S.settings.qrToken||DEF_TOK).toUpperCase();
+  if(isAdmin){g("aSite").style.display="block";fadeLS();startAdminLogin();}
+  else{g("cSite").style.display="block";fadeLS();startCustomer();}
+}
+
+// ════════════════════════════════════════════════════════
+// CUSTOMER
+// ════════════════════════════════════════════════════════
+function startCustomer(){
+  applySet();buildHero();buildGallery();renderMenu("all");setupRes();
+  if(S.isQR&&S.settings.musicEnabled!==false){
+    g("music").style.display="block";g("navMu").style.display="";initMusic();
+  }
+  document.querySelectorAll("[data-s]").forEach(el=>{el.onclick=e=>{e.preventDefault();scr(el.dataset.s);};});
+  g("btnRes").onclick=sendRes;
+  g("hPrev").onclick=()=>hGo(S.hIdx-1);
+  g("hNext").onclick=()=>hGo(S.hIdx+1);
+}
+function applySet(){
+  const s=S.settings;
+  document.body.style.backgroundImage=s.mainBg?`url('${s.mainBg}')`:"";
+  const fa=g("ftAddr");if(fa)fa.textContent=s.address||"";
+  const at=g("aTitle");if(at)at.innerHTML=esc(s.aboutTitle||"");
+  const ad=g("aDesc");if(ad)ad.innerHTML=(s.about1?`<p>${esc(s.about1)}</p>`:"")+( s.about2?`<p>${esc(s.about2)}</p>`:"");
+  ["stY","stI","stO"].forEach((id,i)=>{const e=g(id);if(e)e.textContent=[s.statYear,s.statItems,s.statOrigins][i]||"";});
+}
+function buildHero(){
+  clearInterval(S.hTimer);g("hDots").innerHTML="";
+  if(!S.events.length){
+    g("hBg").style.background=BG[0];
+    g("hCt").innerHTML=`<div class="h-ey">Hide &amp; Nip</div><h1 class="h-title">Selamat Datang di<br/><em>Hide &amp; Nip</em></h1><p class="h-sub">Specialty coffee &amp; warm atmosphere.</p><div class="h-acts"><button class="btn-hp" onclick="document.querySelector('#menu').scrollIntoView({behavior:'smooth'})">Lihat Menu</button><button class="btn-ho" onclick="document.querySelector('#reservation').scrollIntoView({behavior:'smooth'})">Reservasi</button></div>`;
+    return;
+  }
+  S.events.forEach((_,i)=>{const b=document.createElement("button");b.className="h-dot"+(i===0?" on":"");b.onclick=()=>hGo(i);g("hDots").appendChild(b);});
+  hGo(0);S.hTimer=setInterval(()=>hGo(S.hIdx+1),5500);
+}
+function hGo(n){
+  const t=S.events.length;if(!t)return;
+  S.hIdx=(n+t)%t;const ev=S.events[S.hIdx];
+  g("hBg").style.background=ev.img?`url('${ev.img}') center/cover no-repeat`:(ev.bg||BG[0]);
+  g("hCt").innerHTML=`<div class="h-ey">${esc(ev.badge)}</div><h1 class="h-title">${esc(ev.title)}</h1><p class="h-sub">${esc(ev.sub)}</p><div class="h-acts"><button class="btn-hp" onclick="document.querySelector('#menu').scrollIntoView({behavior:'smooth'})">Lihat Menu</button><button class="btn-ho" onclick="document.querySelector('#reservation').scrollIntoView({behavior:'smooth'})">Reservasi</button></div>`;
+  g("hDots").querySelectorAll(".h-dot").forEach((d,i)=>d.classList.toggle("on",i===S.hIdx));
+}
+function buildGallery(){
+  S.lbImgs=S.gallery.map(x=>x.url);
+  const grid=g("gGrid");
+  if(!S.gallery.length){grid.innerHTML=`<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--muted)">Foto belum ditambahkan.</div>`;return;}
+  grid.innerHTML=S.gallery.map((x,i)=>`<div class="g-item" data-i="${i}"><img class="g-img" src="${esc(x.url)}" alt="${esc(x.alt)}" loading="lazy"/><div class="g-ov"><span class="g-zoom">⊕</span></div></div>`).join("");
+  grid.querySelectorAll(".g-item").forEach(el=>el.onclick=()=>lbOpen(+el.dataset.i));
+  if(S.gallery[0])g("aImgW").innerHTML=`<img class="about-img" src="${esc(S.gallery[0].url)}" alt="${esc(S.gallery[0].alt)}"/>`+(S.gallery[1]?`<img class="about-img2" src="${esc(S.gallery[1].url)}" alt="${esc(S.gallery[1].alt)}"/>`:"");
+}
+function lbOpen(i){S.lbIdx=i;g("lbImg").src=S.lbImgs[i]||"";g("lb").classList.add("on");}
+g("lbCl").onclick=()=>g("lb").classList.remove("on");
+g("lb").onclick=e=>{if(e.target===g("lb"))g("lb").classList.remove("on");};
+g("lbPv").onclick=()=>lbOpen((S.lbIdx-1+S.lbImgs.length)%S.lbImgs.length);
+g("lbNx").onclick=()=>lbOpen((S.lbIdx+1)%S.lbImgs.length);
+document.addEventListener("keydown",e=>{if(!g("lb").classList.contains("on"))return;if(e.key==="ArrowLeft")g("lbPv").click();if(e.key==="ArrowRight")g("lbNx").click();if(e.key==="Escape")g("lbCl").click();});
+function renderMenu(cat){
+  const cats=["all","coffee","noncoffee","food","snack"];
+  const lbl={all:"Semua",...CAT};
+  g("mTabs").innerHTML=cats.map(c=>`<button class="m-tab ${c===cat?"on":""}" data-c="${c}">${lbl[c]}</button>`).join("");
+  g("mTabs").querySelectorAll(".m-tab").forEach(b=>b.onclick=()=>renderMenu(b.dataset.c));
+  const items=cat==="all"?S.menu:S.menu.filter(m=>m.cat===cat);
+  g("mGrid").innerHTML=items.length
+    ?items.map(m=>`<div class="m-card"><div class="mc-iw">${m.img?`<img class="mc-img" src="${esc(m.img)}" alt="${esc(m.name)}" loading="lazy"/>`:`<div class="mc-ep">${m.emoji||"🍽"}</div>`}</div><div class="mc-cat">${CAT[m.cat]||m.cat}</div><div class="mc-name">${esc(m.name)}</div><div class="mc-desc">${esc(m.desc)}</div><div class="mc-price">${esc(m.price)}</div></div>`).join("")
+    :`<div class="m-empty">Belum ada item.</div>`;
+}
+function setupRes(){const t=new Date().toISOString().split("T")[0];g("rDate").min=t;g("rDate").value=t;}
+function sendRes(){
+  const name=g("rName").value.trim(),phone=g("rPhone").value.trim(),date=g("rDate").value,time=g("rTime").value,pax=g("rPax").value;
+  if(!name||!phone||!date||!time||!pax){toast("Mohon lengkapi data reservasi","err");return;}
+  const wa=S.settings.wa||DEF_WA;
+  const msg=encodeURIComponent(`*RESERVASI — Hide and Nip Cafe* 🍵\n\nNama       : ${name}\nNo. HP     : ${phone}\nTanggal    : ${date}\nJam        : ${time}\nTamu       : ${pax}\nArea       : ${g("rArea").value||"—"}\nCatatan    : ${g("rNote").value.trim()||"—"}\n\n_Dikirim via website_`);
+  window.open(`https://wa.me/${wa}?text=${msg}`,"_blank");
+}
+function initMusic(){
+  g("ytTab").onclick=()=>{S.src="yt";g("ytTab").classList.add("on");g("scTab").classList.remove("on");g("urlInp").placeholder="Paste link YouTube...";};
+  g("scTab").onclick=()=>{S.src="sc";g("scTab").classList.add("on");g("ytTab").classList.remove("on");g("urlInp").placeholder="Paste link SoundCloud...";};
+  g("addSong").onclick=doAdd;g("urlInp").onkeydown=e=>{if(e.key==="Enter")doAdd();};
+  if(RT_OK)RT.subscribe(q=>{S.queue=q;renderQ();},item=>{S.nowPlaying=item;renderNP(item);});
+  else{S.queue=[];renderQ();}
+}
+function ytId(u){const m=u.match(/(?:youtu\.be\/|[?&]v=|\/embed\/)([a-zA-Z0-9_-]{11})/);return m?m[1]:null;}
+
+async function doAdd(){
+  const v=g("urlInp").value.trim();if(!v)return;
+  g("addSong").disabled=true;g("addSong").textContent="Mencari judul...";
+  let title = v, item;
+  try {
+    // API gratis untuk menarik judul asli video/lagu
+    const res = await fetch(`https://noembed.com/embed?url=${v}`);
+    const data = await res.json();
+    if(data.title) title = data.title;
+  } catch(e) {}
+
+  if(S.src==="yt"){
+    const id=ytId(v);if(!id){toast("Link YouTube tidak valid","err");g("addSong").disabled=false;g("addSong").textContent="+ Tambah";return;}
+    item={type:"yt",id,label:title!==v?title:"YT·"+id,url:v};
+  } else {
+    if(!v.includes("soundcloud.com")){toast("Link SC tidak valid","err");g("addSong").disabled=false;g("addSong").textContent="+ Tambah";return;}
+    item={type:"sc",url:v,label:title!==v?title:"SC·"+v.split("/").slice(-2).join("/")};
+  }
+  g("urlInp").value="";
+  try{
+    if(RT_OK){await RT.push(item);setTimeout(async()=>{if(!S.nowPlaying&&S.queue.length>0)await RT.setPlaying(S.queue[0]);},600);}
+    else{item._key="l"+Date.now();S.queue.push(item);renderQ();if(S.queue.length===1){S.nowPlaying=item;renderNP(item);}}
+    toast("Lagu ditambahkan 🎵");
+  }catch(e){toast("Gagal: "+e.message,"err");}
+  finally{g("addSong").disabled=false;g("addSong").textContent="+ Tambah";}
+}
+
+function renderNP(item){
+  const ytf=g("ytf"),scf=g("scf");
+  if(!item){ytf.style.display="none";ytf.src="";scf.style.display="none";scf.src="";return;}
+  // Autoplay DIMATIKAN di HP customer agar tidak berisik
+  if(item.type==="yt"){ytf.src=`https://www.youtube.com/embed/${item.id}?rel=0`;ytf.style.display="block";scf.style.display="none";scf.src="";}
+  else{scf.src=`https://w.soundcloud.com/player/?url=${encodeURIComponent(item.url)}&color=%23C8A97E`;scf.style.display="block";ytf.style.display="none";ytf.src="";}
+  renderQ();
+}
+
+function playLocal(item){S.nowPlaying=item;renderNP(item);}
+
+function renderQ(){
+  const c=g("qCont");
+  if(!S.queue.length){g("ytf").style.display="none";g("ytf").src="";g("scf").style.display="none";g("scf").src="";c.innerHTML=`<div class="q-empty">Belum ada lagu — paste link di atas</div>`;return;}
+  const nk=S.nowPlaying?._key||S.nowPlaying?.id;
+  c.innerHTML=`<ul class="q-list">${S.queue.map((it,i)=>{const on=(it._key&&it._key===nk)||(it.id&&it.id===S.nowPlaying?.id);return`<li class="qi ${on?"on":""}"><span class="qi-ic">${on?"▶":"·"}</span><span class="qi-lb">${esc(it.label)}</span>${on?'<span style="font-size:9px;color:var(--gold);flex-shrink:0">NOW</span>':''}</li>`;}).join("")}</ul>`;
+  // Baris onclick dihapus di sini, customer tidak bisa klik lagu!
+}
+
+// ════════════════════════════════════════════════════════
+// ADMIN — KEY FIX: no _tabInited, just use onclick re-assign
+// ════════════════════════════════════════════════════════
+function startAdminLogin(){
+  g("btnLogin").onclick=tryLogin;
+  g("aPass").onkeydown=e=>{if(e.key==="Enter")tryLogin();};
+  // If already authenticated via Firebase (page refresh)
+  if(_auth&&_onAuth)_onAuth(_auth,u=>{if(u&&g("aDash").style.display==="none")openDash();});
+}
+async function tryLogin(){
+  g("aErr").style.display="none";
+  const btn=g("btnLogin");btn.disabled=true;btn.textContent="Masuk...";
+  try{
+    await Auth.login(g("aEmail").value.trim(),g("aPass").value);
+    window.__adm=true;openDash();
+  }catch{g("aErr").style.display="block";}
+  finally{btn.disabled=false;btn.textContent="Masuk";}
+}
+function openDash(){
+  g("aLogin").style.display="none";g("aDash").style.display="block";
+  // Setup tab switching
+  document.querySelectorAll(".atab").forEach(b=>{
+    b.onclick=()=>{
+      document.querySelectorAll(".atab").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+      document.querySelectorAll(".asec").forEach(x=>x.classList.remove("on"));
+      const sec=g("at-"+b.dataset.t);if(sec)sec.classList.add("on");
+      loadTab(b.dataset.t);
+    };
+  });
+  g("btnLo").onclick=async()=>{await Auth.logout();window.__adm=false;location.reload();};
+  loadTab("hero");
+}
+function loadTab(t){
+  if(t==="hero")loadHeroTab();
+  else if(t==="menu")loadMenuTab();
+  else if(t==="gallery")loadGallTab();
+  else if(t==="music")loadMusicTab();
+  else if(t==="settings")loadSettingsTab();
+}
+
+// ── HERO TAB ──────────────────────────────────────────────
+function loadHeroTab(){
+  renderHeroAdmin();
+  bindUpload("hImgFile","hImgPrev","hImg","hImgSt");
+  bindUpload("bgFile","bgPrev","mainBg","bgSt");
+  buildBgSwatches();
+  g("mainBg").value=S.settings.mainBg||"";
+  // Re-assign onclick every time (safe, not addEvent)
+  g("btnAHero").onclick=()=>g("heroFw").classList.toggle("on");
+  g("btnCnHero").onclick=()=>{g("heroFw").classList.remove("on");clearUpload("hImgFile","hImgPrev","hImgSt","hImg");["hTitle","hBadge","hSub"].forEach(x=>{const e=g(x);if(e)e.value="";});};
+  g("btnSvHero").onclick=doSaveHero;
+  g("btnSvBg").onclick=doSaveBg;
+  updateQrUrl();
+}
+function renderHeroAdmin(){
+  g("heroList").innerHTML=S.events.length
+    ?S.events.map(ev=>`<div class="irow"><div style="width:36px;height:28px;border-radius:4px;flex-shrink:0;background:${ev.img?`url('${esc(ev.img)}') center/cover`:(ev.bg||BG[0])}"></div><div class="irow-info"><div class="irow-name">${esc(ev.title)}</div><div class="irow-sub">${esc(ev.badge)} · ${esc(ev.sub)}</div></div><button class="btn-dl" data-id="${ev.id}">Hapus</button></div>`).join("")
+    :`<p style="font-size:11px;color:var(--muted);padding:4px 0">Belum ada slide.</p>`;
+  g("heroList").querySelectorAll(".btn-dl").forEach(b=>b.onclick=async()=>{
+    b.disabled=true;
+    try{await DB.remove("events",b.dataset.id);S.events=S.events.filter(e=>e.id!==b.dataset.id);buildHero();renderHeroAdmin();toast("Slide dihapus");}
+    catch(e){toast("Gagal: "+e.message,"err");b.disabled=false;}
+  });
+}
+async function doSaveHero(){
+  const title=g("hTitle").value.trim();if(!title){toast("Judul wajib diisi","err");return;}
+  const btn=g("btnSvHero");btn.disabled=true;btn.textContent="Menyimpan...";
+  try{
+    const data={title,badge:g("hBadge").value.trim()||"Event",sub:g("hSub").value.trim(),img:g("hImg").value.trim(),bg:S.hBg};
+    const id=await DB.write("events",data);
+    S.events.push({id,...data,order:data.order||Date.now()});
+    buildHero();renderHeroAdmin();
+    g("heroFw").classList.remove("on");
+    ["hTitle","hBadge","hSub"].forEach(x=>{const e=g(x);if(e)e.value="";});
+    clearUpload("hImgFile","hImgPrev","hImgSt","hImg");
+    toast("Slide berhasil ditambahkan ✓");
+  }catch(e){toast("Gagal menyimpan: "+e.message,"err");}
+  finally{btn.disabled=false;btn.textContent="Simpan Slide";}
+}
+function buildBgSwatches(){
+  const c=g("hSwatches");if(!c)return;
+  c.innerHTML=BG.map((bg,i)=>`<div class="bgsw ${bg===S.hBg?"on":""}" style="background:${bg}" data-i="${i}"></div>`).join("");
+  c.querySelectorAll(".bgsw").forEach(s=>s.onclick=()=>{S.hBg=BG[+s.dataset.i];c.querySelectorAll(".bgsw").forEach(x=>x.classList.remove("on"));s.classList.add("on");});
+}
+async function doSaveBg(){
+  const url=g("mainBg").value.trim();S.settings.mainBg=url;
+  try{await DB.saveSettings({mainBg:url});document.body.style.backgroundImage=url?`url('${url}')`:"";toast("Background diperbarui");}
+  catch(e){toast("Gagal: "+e.message,"err");}
+}
+
+// ── MENU TAB ──────────────────────────────────────────────
+function loadMenuTab(){
+  renderMenuAdmin();
+  bindUpload("mImgFile","mImgPrev","mImg","mImgSt");
+  g("btnAMenu").onclick=()=>g("menuFw").classList.toggle("on");
+  g("btnCnMenu").onclick=()=>{g("menuFw").classList.remove("on");clearUpload("mImgFile","mImgPrev","mImgSt","mImg");["mName","mEmoji","mDesc","mPrice"].forEach(x=>{const e=g(x);if(e)e.value="";});};
+  g("btnSvMenu").onclick=doSaveMenu;
+}
+function renderMenuAdmin(){
+  g("menuAList").innerHTML=S.menu.length
+    ?S.menu.map(m=>`<div class="irow">${m.img?`<img src="${esc(m.img)}" style="width:36px;height:36px;object-fit:cover;border-radius:5px;flex-shrink:0" onerror="this.style.display='none'"/>`:`<span style="font-size:18px">${m.emoji||"🍽"}</span>`}<div class="irow-info"><div class="irow-name">${esc(m.name)}<span class="pill">${CAT[m.cat]||m.cat}</span></div><div class="irow-sub">${esc(m.desc)} · ${esc(m.price)}</div></div><button class="btn-dl" data-id="${m.id}">Hapus</button></div>`).join("")
+    :`<p style="font-size:11px;color:var(--muted);padding:4px 0">Belum ada menu.</p>`;
+  g("menuAList").querySelectorAll(".btn-dl").forEach(b=>b.onclick=async()=>{
+    b.disabled=true;
+    try{await DB.remove("menu",b.dataset.id);S.menu=S.menu.filter(m=>m.id!==b.dataset.id);renderMenu("all");renderMenuAdmin();toast("Item dihapus");}
+    catch(e){toast("Gagal: "+e.message,"err");b.disabled=false;}
+  });
+}
+async function doSaveMenu(){
+  const name=g("mName").value.trim();if(!name){toast("Nama wajib diisi","err");return;}
+  const btn=g("btnSvMenu");btn.disabled=true;btn.textContent="Menyimpan...";
+  try{
+    const data={name,emoji:g("mEmoji").value.trim()||"🍽",desc:g("mDesc").value.trim(),price:g("mPrice").value.trim(),cat:g("mCat").value,img:g("mImg").value.trim()};
+    const id=await DB.write("menu",data);
+    S.menu.push({id,...data,order:data.order||Date.now()});
+    renderMenu("all");renderMenuAdmin();
+    g("menuFw").classList.remove("on");
+    ["mName","mEmoji","mDesc","mPrice"].forEach(x=>{const e=g(x);if(e)e.value="";});
+    clearUpload("mImgFile","mImgPrev","mImgSt","mImg");
+    toast("Item menu ditambahkan ✓");
+  }catch(e){toast("Gagal menyimpan: "+e.message,"err");}
+  finally{btn.disabled=false;btn.textContent="Simpan Item";}
+}
+
+// ── GALLERY TAB ───────────────────────────────────────────
+function loadGallTab(){
+  renderGallAdmin();
+  bindUpload("gFile","gPrev","gUrl","gSt");
+  g("btnAGall").onclick=()=>g("gallFw").classList.toggle("on");
+  g("btnCnGall").onclick=()=>{g("gallFw").classList.remove("on");clearUpload("gFile","gPrev","gSt","gUrl");const a=g("gAlt");if(a)a.value="";};
+  g("btnSvGall").onclick=doSaveGall;
+}
+function renderGallAdmin(){
+  g("gallAList").innerHTML=S.gallery.length
+    ?S.gallery.map(x=>`<div class="irow"><img src="${esc(x.url)}" style="width:44px;height:34px;object-fit:cover;border-radius:4px;flex-shrink:0" loading="lazy" onerror="this.style.display='none'"/><div class="irow-info"><div class="irow-name">${esc(x.alt)||"Foto cafe"}</div><div class="irow-sub" style="word-break:break-all">${esc((x.url||"").slice(0,50))}…</div></div><button class="btn-dl" data-id="${x.id}">Hapus</button></div>`).join("")
+    :`<p style="font-size:11px;color:var(--muted);padding:4px 0">Belum ada foto.</p>`;
+  g("gallAList").querySelectorAll(".btn-dl").forEach(b=>b.onclick=async()=>{
+    b.disabled=true;
+    try{await DB.remove("gallery",b.dataset.id);S.gallery=S.gallery.filter(x=>x.id!==b.dataset.id);buildGallery();renderGallAdmin();toast("Foto dihapus");}
+    catch(e){toast("Gagal: "+e.message,"err");b.disabled=false;}
+  });
+}
+async function doSaveGall(){
+  const url=g("gUrl").value.trim();if(!url){toast("URL/foto wajib diisi","err");return;}
+  const btn=g("btnSvGall");btn.disabled=true;btn.textContent="Menyimpan...";
+  try{
+    const data={url,alt:g("gAlt").value.trim()||"Foto cafe"};
+    const id=await DB.write("gallery",data);
+    S.gallery.push({id,...data,order:data.order||Date.now()});
+    buildGallery();renderGallAdmin();
+    g("gallFw").classList.remove("on");
+    clearUpload("gFile","gPrev","gSt","gUrl");
+    const a=g("gAlt");if(a)a.value="";
+    toast("Foto ditambahkan ✓");
+  }catch(e){toast("Gagal menyimpan: "+e.message,"err");}
+  finally{btn.disabled=false;btn.textContent="Simpan Foto";}
+}
+
+// ── MUSIC TAB ──────────────────────────────────────────────
+function loadMusicTab(){
+  const s=S.settings;
+  const tog=g("togMu");
+  if(tog){tog.checked=s.musicEnabled!==false;tog.onchange=()=>{const lbl=g("togLbl");if(lbl)lbl.innerHTML=`Fitur musik <strong>${tog.checked?"aktif":"nonaktif"}</strong>`;}}
+  const lbl=g("togLbl");if(lbl)lbl.innerHTML=`Fitur musik <strong>${s.musicEnabled!==false?"aktif":"nonaktif"}</strong>`;
+  const qt=g("qrTok");if(qt){qt.value=s.qrToken||DEF_TOK;qt.oninput=updateQrUrl;}
+  updateQrUrl();
+  g("btnSvMu").onclick=doSaveMusicSettings;
+  g("btnClearQ").onclick=async()=>{await RT.clear();await RT.setPlaying(null);S.queue=[];S.nowPlaying=null;renderAdminQ();toast("Antrian dikosongkan");};
+  const rtSt=g("rtStatus");
+  if(rtSt)rtSt.textContent=RT_OK?"✅ Real-time sync aktif — semua device tersinkronisasi":"⚠️ databaseURL belum diisi — musik tidak sync antar device";
+  if(RT_OK){
+    RT.subscribe(
+      q => { S.queue = q; renderAdminQ(); }, 
+      item => { S.nowPlaying = item; renderAdminPlayer(item); renderAdminQ(); }
+    );
+  } else renderAdminQ();
+}
+function updateQrUrl(){const el=g("qrPrev");if(el)el.textContent=`${location.origin}/?q=${g("qrTok")?.value||S.settings.qrToken||DEF_TOK}`;}
+async function doSaveMusicSettings(){
+  const en=g("togMu")?.checked??true;
+  const tok=g("qrTok")?.value.trim()||DEF_TOK;
+  S.settings.musicEnabled=en;S.settings.qrToken=tok;
+  try{await DB.saveSettings({musicEnabled:en,qrToken:tok});toast("Pengaturan musik disimpan");}
+  catch(e){toast("Gagal: "+e.message,"err");}
+  updateQrUrl();
+}
+
+function renderAdminQ(){
+  const el=g("aQList");if(!el)return;
+  if(!S.queue.length){el.innerHTML=`<p style="font-size:11px;color:var(--muted)">Antrian kosong.</p>`;return;}
+  const nk=S.nowPlaying?._key||S.nowPlaying?.id;
+  
+  el.innerHTML=`<ul style="list-style:none;display:flex;flex-direction:column;gap:3px">${S.queue.map(it=>{
+    const on=(it._key&&it._key===nk)||(it.id&&it.id===S.nowPlaying?.id);
+    return`<li class="qi ${on?"on":""}" data-key="${it._key||it.id||""}" style="display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--cream);border:.5px solid ${on?"var(--gold-d)":"var(--border)"};border-radius:6px;font-size:11px;cursor:pointer;">
+      <span style="color:${on?"var(--gold-d)":"var(--muted)"};flex-shrink:0">${on?"▶":"·"}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(it.label)}</span>
+      ${on?"<span class='pill' style='margin-right:5px'>NOW</span>":""}
+      <button class="btn-dl" data-key="${it._key||it.id||""}">Hapus</button>
+    </li>`;
+  }).join("")}</ul>`;
+
+  // Event Listener: Klik LI untuk Play, Klik Button untuk Hapus
+  el.querySelectorAll("li.qi").forEach(li => {
+    li.onclick = async (e) => {
+      const key = li.dataset.key;
+      // Jika yang diklik adalah tombol hapus
+      if(e.target.classList.contains('btn-dl')) {
+        const item=S.queue.find(i=>i._key===key||i.id===key);
+        const wasPlaying=(item?._key&&item._key===nk)||(item?.id&&item.id===S.nowPlaying?.id);
+        e.target.disabled=true;
+        try{
+          await RT.remove(key);
+          if(wasPlaying){
+            const rest=S.queue.filter(i=>i._key!==key&&i.id!==key);
+            if(RT_OK) await RT.setPlaying(rest.length?rest[0]:null);
+          }
+          toast("Lagu dihapus");
+        }catch(err){toast("Gagal: "+err.message,"err");e.target.disabled=false;}
+        return;
+      }
+      
+      // Jika yang diklik adalah area lagu (Play manual)
+      const itemToPlay = S.queue.find(i=>i._key===key||i.id===key);
+      if(itemToPlay) {
+        if(RT_OK) await RT.setPlaying(itemToPlay);
+        else { S.nowPlaying = itemToPlay; renderAdminPlayer(itemToPlay); renderAdminQ(); }
+      }
+    };
+  });
+}
+
+// ── SETTINGS TAB ──────────────────────────────────────────
+function loadSettingsTab(){
+  const s=S.settings;
+  const map={sY:"statYear",sI:"statItems",sO:"statOrigins",sWa:"wa",sAddr:"address",sAT:"aboutTitle",sA1:"about1",sA2:"about2"};
+  Object.entries(map).forEach(([id,key])=>{const e=g(id);if(e)e.value=s[key]||"";});
+  g("btnSvSet").onclick=doSaveSettings;
+  g("btnChPw").onclick=doChangePw;
+  const ci=g("cldInfo");
+  if(ci)ci.innerHTML=CLD_OK
+    ?`✅ Cloudinary terhubung (<strong>${CLD.cloudName}</strong>) — upload gambar aktif`
+    :`⚠️ Cloudinary belum dikonfigurasi — gambar tersimpan lokal. <a href="https://cloudinary.com" target="_blank" style="color:var(--gold-d)">Daftar gratis →</a>`;
+}
+async function doSaveSettings(){
+  const map={sY:"statYear",sI:"statItems",sO:"statOrigins",sWa:"wa",sAddr:"address",sAT:"aboutTitle",sA1:"about1",sA2:"about2"};
+  const data={};Object.entries(map).forEach(([id,key])=>{const e=g(id);if(e)data[key]=e.value.trim();});
+  Object.assign(S.settings,data);
+  try{await DB.saveSettings(data);applySet();toast("Pengaturan disimpan ✓");}
+  catch(e){toast("Gagal: "+e.message,"err");}
+}
+async function doChangePw(){
+  const p1=g("pw1")?.value,p2=g("pw2")?.value;
+  if(!p1||p1!==p2){toast("Password tidak cocok","err");return;}
+  try{
+    if(!_auth)DD.settings.adminPassword=p1;
+    await DB.saveSettings({adminPassword:p1});
+    if(g("pw1"))g("pw1").value="";if(g("pw2"))g("pw2").value="";
+    toast("Password berhasil diubah ✓");
+  }catch(e){toast("Gagal: "+e.message,"err");}
+}
+
+// ── Run ───────────────────────────────────────────────────
+try{await main();}catch(e){console.error("Fatal:",e);fadeLS();}
+clearTimeout(_safe);
+})();
+</script>
+</body>
+</html>
