@@ -275,13 +275,16 @@ footer p{font-size:11px;line-height:1.9;}
 <!-- CUSTOMER SITE -->
 <div id="cSite" style="display:none">
   <nav class="nav">
-    <div class="nav-logo">Hide &amp; <em>Nip</em></div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <img id="cNavIcon" src="" style="height:26px;width:auto;display:none;object-fit:contain;" alt="Icon"/>
+      <div class="nav-logo">Hide &amp; <em>Nip</em></div>
+    </div>
     <div class="nav-links">
       <a data-s="#about">Tentang</a>
       <a data-s="#gallery">Galeri</a>
       <a data-s="#menu">Menu</a>
       <a data-s="#music" id="navMu" style="display:none">Musik</a>
-      <a data-s="#reservation">Reservasi</a>
+      <!-- <a data-s="#reservation">Reservasi</a> -->
     </div>
     <button class="nav-res" data-s="#reservation">Reservasi Meja</button>
   </nav>
@@ -546,6 +549,17 @@ footer p{font-size:11px;line-height:1.9;}
       <!-- MUSIC TAB -->
       <div class="asec" id="at-music">
         <div class="acard">
+          <div class="acard-t">Tambah Lagu ke Antrian</div>
+          <div style="display:flex;gap:6px;margin-bottom:10px;">
+            <button class="atab on" id="ytTabAd" style="padding:5px 14px">YouTube</button>
+            <button class="atab" id="scTabAd" style="padding:5px 14px">SoundCloud</button>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <input class="fi" style="flex:1" type="text" id="urlInpAd" placeholder="Paste link YouTube atau SoundCloud..."/>
+            <button class="btn-sv" id="addSongAd" style="white-space:nowrap;">+ Tambah</button>
+          </div>
+        </div>
+        <div class="acard">
           <div class="acard-t">Pengaturan Fitur Pemutar Musik</div>
           <div class="tog-w" style="margin-bottom:14px">
             <label class="tog"><input type="checkbox" id="togMu" checked/><div class="tog-sl"></div></label>
@@ -585,18 +599,29 @@ footer p{font-size:11px;line-height:1.9;}
           <div id="aQList"><p style="font-size:12px;color:var(--muted)">Antrian kosong.</p></div>
           <button class="btn-dl" id="btnClearQ" style="margin-top:8px">🗑 Hapus Semua Antrian</button>
         </div>
-        <div class="acard">
+        <!-- <div class="acard">
           <div class="acard-t">Kelola Antrian Lagu</div>
           <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Admin bisa hapus lagu. Customer tidak bisa menghapus antrian.</p>
           <div id="aQList"><p style="font-size:12px;color:var(--muted)">Antrian kosong.</p></div>
           <button class="btn-dl" id="btnClearQ" style="margin-top:8px">🗑 Hapus Semua Antrian</button>
-        </div>
+        </div> -->
       </div>
 
       <!-- SETTINGS TAB -->
       <div class="asec" id="at-settings">
         <div class="acard">
           <div class="acard-t">Informasi &amp; Konten Cafe</div>
+          <div class="fr c1">
+            <div class="fl">Logo / Icon Cafe (PNG transparan)
+              <div class="img-up">
+                <div class="img-up-zone"><input type="file" id="iconFile" accept="image/png, image/jpeg"/><div class="img-up-icon">💠</div><div class="img-up-txt"><strong>Klik/drag</strong> icon logo (opsional)</div></div>
+                <img class="img-preview" id="iconPrev" style="max-width:80px;background:#eee;"/>
+                <div class="img-sep">— atau paste URL —</div>
+                <input class="fi" id="sIcon" placeholder="https://..."/>
+                <div class="img-status" id="iconSt"></div>
+              </div>
+            </div>
+          </div>
           <div class="fr c2">
             <div class="fl">Tahun Berdiri<input class="fi" id="sY" placeholder="3+"/></div>
             <div class="fl">Jml. Menu<input class="fi" id="sI" placeholder="40+"/></div>
@@ -869,15 +894,22 @@ async function uploadImg(file,stEl){
   });
 }
 function setSt(el,msg,t){if(!el)return;el.textContent=msg;el.className="img-status "+(t==="ok"?"ok":t==="prog"?"prog":"err");}
-function bindUpload(fileId,prevId,urlId,stId){
+
+function bindUpload(fileId,prevId,urlId,stId,btnId){
   const fi=g(fileId);if(!fi||fi._u)return;fi._u=true;
   fi.onchange=async e=>{
     const f=e.target.files[0];if(!f)return;
+    const btn=g(btnId);
+    if(btn){btn.disabled=true;btn.dataset.ot=btn.textContent;btn.textContent="Mengupload...";}
+    
     const fr=new FileReader();
     fr.onload=ev=>{const p=g(prevId);if(p){p.src=ev.target.result;p.classList.add("show");}};
     fr.readAsDataURL(f);
+    
     const url=await uploadImg(f,g(stId));
     if(url){const u=g(urlId);if(u)u.value=url;}
+    
+    if(btn){btn.disabled=false;btn.textContent=btn.dataset.ot;}
   };
   const zone=fi.closest(".img-up-zone");
   if(zone&&!zone._u){
@@ -889,6 +921,7 @@ function bindUpload(fileId,prevId,urlId,stId){
   const ui=g(urlId);
   if(ui&&!ui._u){ui._u=true;ui.oninput=()=>{const p=g(prevId);if(p&&ui.value){p.src=ui.value;p.classList.add("show");}};}
 }
+
 function clearUpload(fileId,prevId,stId,urlId){
   const fi=g(fileId);if(fi){fi.value="";fi._u=false;}
   const p=g(prevId);if(p){p.src="";p.classList.remove("show");}
@@ -979,6 +1012,7 @@ function renderAdminPlayer(item) {
      if(isYtReady && ytAdPlayer && ytAdPlayer.stopVideo) ytAdPlayer.stopVideo();
      return;
   }
+
   if(item.type==="yt"){
      if(sw) sw.style.display="none";
      if(yw) yw.style.display="block";
@@ -990,7 +1024,6 @@ function renderAdminPlayer(item) {
        sw.style.display="block";
        sw.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(item.url)}&color=%23C8A97E&auto_play=true`;
        
-       // Setup Soundcloud Auto-next
        if(!window.scAdWidget && window.SC) {
           window.scAdWidget = SC.Widget('scfAdmin');
           window.scAdWidget.bind(SC.Widget.Events.FINISH, playNextSong);
@@ -1037,6 +1070,12 @@ function applySet(){
   const at=g("aTitle");if(at)at.innerHTML=esc(s.aboutTitle||"");
   const ad=g("aDesc");if(ad)ad.innerHTML=(s.about1?`<p>${esc(s.about1)}</p>`:"")+( s.about2?`<p>${esc(s.about2)}</p>`:"");
   ["stY","stI","stO"].forEach((id,i)=>{const e=g(id);if(e)e.textContent=[s.statYear,s.statItems,s.statOrigins][i]||"";});
+
+  const icon = g("cNavIcon");
+  if(icon) {
+    if(s.navIcon) { icon.src = s.navIcon; icon.style.display = "block"; }
+    else { icon.style.display = "none"; icon.src = ""; }
+  }
 }
 function buildHero(){
   clearInterval(S.hTimer);g("hDots").innerHTML="";
@@ -1123,6 +1162,40 @@ async function doAdd(){
   finally{g("addSong").disabled=false;g("addSong").textContent="+ Tambah";}
 }
 
+let S_srcAd = "yt"; // Variabel sumber lagu admin
+
+async function doAddAdmin(){
+  const v=g("urlInpAd").value.trim();if(!v)return;
+  g("addSongAd").disabled=true;g("addSongAd").textContent="Mencari...";
+  let title = v, item;
+  try {
+    const res = await fetch(`https://noembed.com/embed?url=${v}`);
+    const data = await res.json();
+    if(data.title) title = data.title;
+  } catch(e) {}
+
+  if(S_srcAd==="yt"){
+    const id=ytId(v);if(!id){toast("Link YouTube tidak valid","err");g("addSongAd").disabled=false;g("addSongAd").textContent="+ Tambah";return;}
+    item={type:"yt",id,label:title!==v?title:"YT·"+id,url:v};
+  } else {
+    if(!v.includes("soundcloud.com")){toast("Link SC tidak valid","err");g("addSongAd").disabled=false;g("addSongAd").textContent="+ Tambah";return;}
+    item={type:"sc",url:v,label:title!==v?title:"SC·"+v.split("/").slice(-2).join("/")};
+  }
+  g("urlInpAd").value="";
+  try{
+    if(RT_OK){
+      await RT.push(item);
+      setTimeout(async()=>{if(!S.nowPlaying&&S.queue.length>0)await RT.setPlaying(S.queue[0]);},600);
+    }
+    else{
+      item._key="l"+Date.now();S.queue.push(item);renderAdminQ();
+      if(S.queue.length===1){S.nowPlaying=item;renderAdminPlayer(item);}
+    }
+    toast("Lagu ditambahkan 🎵");
+  }catch(e){toast("Gagal: "+e.message,"err");}
+  finally{g("addSongAd").disabled=false;g("addSongAd").textContent="+ Tambah";}
+}
+
 function renderNP(item){
   const ytf=g("ytf"),scf=g("scf");
   if(!item){ytf.style.display="none";ytf.src="";scf.style.display="none";scf.src="";return;}
@@ -1185,8 +1258,8 @@ function loadTab(t){
 // ── HERO TAB ──────────────────────────────────────────────
 function loadHeroTab(){
   renderHeroAdmin();
-  bindUpload("hImgFile","hImgPrev","hImg","hImgSt");
-  bindUpload("bgFile","bgPrev","mainBg","bgSt");
+  bindUpload("hImgFile","hImgPrev","hImg","hImgSt","btnSvHero");
+  bindUpload("bgFile","bgPrev","mainBg","bgSt","btnSvBg");
   buildBgSwatches();
   g("mainBg").value=S.settings.mainBg||"";
   // Re-assign onclick every time (safe, not addEvent)
@@ -1235,7 +1308,7 @@ async function doSaveBg(){
 // ── MENU TAB ──────────────────────────────────────────────
 function loadMenuTab(){
   renderMenuAdmin();
-  bindUpload("mImgFile","mImgPrev","mImg","mImgSt");
+  bindUpload("mImgFile","mImgPrev","mImg","mImgSt","btnSvMenu");
   g("btnAMenu").onclick=()=>g("menuFw").classList.toggle("on");
   g("btnCnMenu").onclick=()=>{g("menuFw").classList.remove("on");clearUpload("mImgFile","mImgPrev","mImgSt","mImg");["mName","mEmoji","mDesc","mPrice"].forEach(x=>{const e=g(x);if(e)e.value="";});};
   g("btnSvMenu").onclick=doSaveMenu;
@@ -1269,7 +1342,7 @@ async function doSaveMenu(){
 // ── GALLERY TAB ───────────────────────────────────────────
 function loadGallTab(){
   renderGallAdmin();
-  bindUpload("gFile","gPrev","gUrl","gSt");
+  bindUpload("gFile","gPrev","gUrl","gSt","btnSvGall");
   g("btnAGall").onclick=()=>g("gallFw").classList.toggle("on");
   g("btnCnGall").onclick=()=>{g("gallFw").classList.remove("on");clearUpload("gFile","gPrev","gSt","gUrl");const a=g("gAlt");if(a)a.value="";};
   g("btnSvGall").onclick=doSaveGall;
@@ -1301,24 +1374,47 @@ async function doSaveGall(){
 }
 
 // ── MUSIC TAB ──────────────────────────────────────────────
+let _musicTabLoaded = false;
+
 function loadMusicTab(){
   const s=S.settings;
+  
+  // Setup tombol dasar
   const tog=g("togMu");
   if(tog){tog.checked=s.musicEnabled!==false;tog.onchange=()=>{const lbl=g("togLbl");if(lbl)lbl.innerHTML=`Fitur musik <strong>${tog.checked?"aktif":"nonaktif"}</strong>`;}}
-  const lbl=g("togLbl");if(lbl)lbl.innerHTML=`Fitur musik <strong>${s.musicEnabled!==false?"aktif":"nonaktif"}</strong>`;
-  const qt=g("qrTok");if(qt){qt.value=s.qrToken||DEF_TOK;qt.oninput=updateQrUrl;}
-  updateQrUrl();
-  g("btnSvMu").onclick=doSaveMusicSettings;
-  g("btnClearQ").onclick=async()=>{await RT.clear();await RT.setPlaying(null);S.queue=[];S.nowPlaying=null;renderAdminQ();toast("Antrian dikosongkan");};
-  const rtSt=g("rtStatus");
-  if(rtSt)rtSt.textContent=RT_OK?"✅ Real-time sync aktif — semua device tersinkronisasi":"⚠️ databaseURL belum diisi — musik tidak sync antar device";
-  if(RT_OK){
-    RT.subscribe(
-      q => { S.queue = q; renderAdminQ(); }, 
-      item => { S.nowPlaying = item; renderAdminPlayer(item); renderAdminQ(); }
-    );
-  } else renderAdminQ();
+  if(g("btnSvMu")) g("btnSvMu").onclick=doSaveMusicSettings;
+  if(g("btnClearQ")) g("btnClearQ").onclick=async()=>{await RT.clear();await RT.setPlaying(null);S.queue=[];S.nowPlaying=null;renderAdminQ();toast("Antrian dikosongkan");};
+  
+  // Setup Input Lagu Admin
+  const btnYtAd = g("ytTabAd"), btnScAd = g("scTabAd"), addBtnAd = g("addSongAd"), inpAd = g("urlInpAd");
+  if(btnYtAd && btnScAd) {
+     btnYtAd.onclick = () => { S_srcAd = "yt"; btnYtAd.classList.add("on"); btnScAd.classList.remove("on"); if(inpAd) inpAd.placeholder="Paste link YouTube..."; };
+     btnScAd.onclick = () => { S_srcAd = "sc"; btnScAd.classList.add("on"); btnYtAd.classList.remove("on"); if(inpAd) inpAd.placeholder="Paste link SoundCloud..."; };
+  }
+  if(addBtnAd) addBtnAd.onclick = doAddAdmin;
+  if(inpAd) inpAd.onkeydown = e => { if(e.key==="Enter") doAddAdmin(); };
+
+  // KUNCI UTAMA: Jangan subscribe API berulang kali saat admin bolak-balik pindah tab
+  if(!_musicTabLoaded) {
+    if(RT_OK){
+      RT.subscribe(
+        q => { S.queue = q; renderAdminQ(); }, 
+        item => { 
+          // Cek apakah lagunya masih sama persis agar tidak mereload video
+          const isSame = S.nowPlaying && item && (S.nowPlaying._key === item._key || S.nowPlaying.id === item.id);
+          S.nowPlaying = item; 
+          if(!isSame) renderAdminPlayer(item); 
+          renderAdminQ(); 
+        }
+      );
+    } else renderAdminQ();
+    _musicTabLoaded = true;
+  } else {
+    // Jika sudah pernah load, cukup render ulang tampilannya saja
+    renderAdminQ();
+  }
 }
+
 function updateQrUrl(){const el=g("qrPrev");if(el)el.textContent=`${location.origin}/?q=${g("qrTok")?.value||S.settings.qrToken||DEF_TOK}`;}
 async function doSaveMusicSettings(){
   const en=g("togMu")?.checked??true;
@@ -1336,7 +1432,7 @@ function renderAdminQ(){
   
   el.innerHTML=`<ul style="list-style:none;display:flex;flex-direction:column;gap:3px">${S.queue.map(it=>{
     const on=(it._key&&it._key===nk)||(it.id&&it.id===S.nowPlaying?.id);
-    return`<li class="qi ${on?"on":""}" data-key="${it._key||it.id||""}" style="display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--cream);border:.5px solid ${on?"var(--gold-d)":"var(--border)"};border-radius:6px;font-size:11px;cursor:pointer;">
+    return`<li class="qi ${on?"on":""}" data-key="${it._key||it.id||""}" style="display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--cream);border:.5px solid ${on?"var(--gold-d)":"var(--border)"};border-radius:6px;font-size:11px;cursor:pointer;color:var(--ink);">
       <span style="color:${on?"var(--gold-d)":"var(--muted)"};flex-shrink:0">${on?"▶":"·"}</span>
       <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(it.label)}</span>
       ${on?"<span class='pill' style='margin-right:5px'>NOW</span>":""}
@@ -1348,7 +1444,8 @@ function renderAdminQ(){
   el.querySelectorAll("li.qi").forEach(li => {
     li.onclick = async (e) => {
       const key = li.dataset.key;
-      // Jika yang diklik adalah tombol hapus
+      
+      // Jika yang diklik adalah tombol Hapus
       if(e.target.classList.contains('btn-dl')) {
         const item=S.queue.find(i=>i._key===key||i.id===key);
         const wasPlaying=(item?._key&&item._key===nk)||(item?.id&&item.id===S.nowPlaying?.id);
@@ -1364,11 +1461,22 @@ function renderAdminQ(){
         return;
       }
       
-      // Jika yang diklik adalah area lagu (Play manual)
+      // Jika yang diklik adalah area baris lagu (Force Play / Kickstart)
       const itemToPlay = S.queue.find(i=>i._key===key||i.id===key);
       if(itemToPlay) {
+        const isSame = S.nowPlaying && (S.nowPlaying._key === key || S.nowPlaying.id === key);
+        
         if(RT_OK) await RT.setPlaying(itemToPlay);
         else { S.nowPlaying = itemToPlay; renderAdminPlayer(itemToPlay); renderAdminQ(); }
+
+        // KICKSTART: Jika terjadi layar hitam saat F5 (diblokir browser), paksa play!
+        if(isSame) {
+           if(itemToPlay.type === "yt" && isYtReady && ytAdPlayer && ytAdPlayer.playVideo) {
+               ytAdPlayer.playVideo();
+           } else if(itemToPlay.type === "sc" && window.scAdWidget) {
+               window.scAdWidget.play();
+           }
+        }
       }
     };
   });
@@ -1377,8 +1485,10 @@ function renderAdminQ(){
 // ── SETTINGS TAB ──────────────────────────────────────────
 function loadSettingsTab(){
   const s=S.settings;
-  const map={sY:"statYear",sI:"statItems",sO:"statOrigins",sWa:"wa",sAddr:"address",sAT:"aboutTitle",sA1:"about1",sA2:"about2"};
+  const map={sY:"statYear",sI:"statItems",sO:"statOrigins",sWa:"wa",sAddr:"address",sAT:"aboutTitle",sA1:"about1",sA2:"about2",sIcon:"navIcon"}; // <-- Tambahkan sIcon
   Object.entries(map).forEach(([id,key])=>{const e=g(id);if(e)e.value=s[key]||"";});
+  
+  bindUpload("iconFile","iconPrev","sIcon","iconSt","btnSvSet");
   g("btnSvSet").onclick=doSaveSettings;
   g("btnChPw").onclick=doChangePw;
   const ci=g("cldInfo");
@@ -1387,7 +1497,7 @@ function loadSettingsTab(){
     :`⚠️ Cloudinary belum dikonfigurasi — gambar tersimpan lokal. <a href="https://cloudinary.com" target="_blank" style="color:var(--gold-d)">Daftar gratis →</a>`;
 }
 async function doSaveSettings(){
-  const map={sY:"statYear",sI:"statItems",sO:"statOrigins",sWa:"wa",sAddr:"address",sAT:"aboutTitle",sA1:"about1",sA2:"about2"};
+  const map={sY:"statYear",sI:"statItems",sO:"statOrigins",sWa:"wa",sAddr:"address",sAT:"aboutTitle",sA1:"about1",sA2:"about2",sIcon:"navIcon"}; // <-- Tambahkan sIcon
   const data={};Object.entries(map).forEach(([id,key])=>{const e=g(id);if(e)data[key]=e.value.trim();});
   Object.assign(S.settings,data);
   try{await DB.saveSettings(data);applySet();toast("Pengaturan disimpan ✓");}
