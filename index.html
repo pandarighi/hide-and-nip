@@ -452,7 +452,7 @@ footer p{font-size:11px;line-height:1.9;}
           </div>
           <div class="rf"><div class="rl">Area</div>
             <select class="rs" id="rArea"><option value="">Pilih area</option>
-              <option>Indoor</option><option>Outdoor</option><option>Private Room</option>
+              <option>Indoor</option><option>Outdoor</option>
             </select>
           </div>
           <div class="rf full"><div class="rl">Catatan Khusus</div><textarea class="rta" id="rNote" placeholder="Ulang tahun, kursi bayi, alergi makanan, dll."></textarea></div>
@@ -479,9 +479,9 @@ footer p{font-size:11px;line-height:1.9;}
       </div>
       <div class="ft-col reveal d2">
         <h4>Informasi</h4>
-        <a onclick="alert('Kami menghargai privasi Anda. Data yang dikumpulkan (seperti nama, nomor handphone, dan informasi reservasi) hanya digunakan secara eksklusif untuk keperluan pemesanan meja di Hide and Nip Cafe. Kami berkomitmen untuk tidak pernah membagikan, menjual, atau mendistribusikan data pribadi pelanggan kepada pihak ketiga manapun tanpa persetujuan eksplisit dari Anda.')">Privacy Policy</a>
-        <a onclick="alert('Selamat datang di website Hide and Nip Cafe. Dengan mengakses dan menggunakan layanan pemesanan kami, Anda menyetujui ketentuan bahwa reservasi yang dibuat bersifat tunduk pada ketersediaan meja. Tim operasional cafe kami berhak melakukan konfirmasi ulang atau penyesuaian jam kedatangan demi menjaga kenyamanan seluruh pelanggan. Segala bentuk request lagu melalui sistem kami akan melewati filter antrian otomatis.')">Terms of Service</a>
-        <a onclick="alert('Website ini menggunakan sistem local cookie dan penyimpanan sementara yang sangat terbatas hanya untuk memastikan pengalaman penggunaan yang mulus (seperti mengingat preferensi tema atau tab terakhir yang dibuka). Anda memiliki kebebasan penuh untuk membersihkan atau menolak penyimpanan cookie ini melalui menu pengaturan privasi di browser yang Anda gunakan.')">Cookie Settings</a>
+        <a id="ftPrivacy" onclick="alert('Privacy Policy Hide and Nip Cafe.Kami menghargai privasi Anda. Data yang dikumpulkan hanya digunakan untuk keperluan reservasi dan tidak dibagikan kepada pihak ketiga.')">Privacy Policy</a>
+        <a id="ftTerms" onclick="alert('Terms of Service Hide and Nip Cafe.Dengan menggunakan layanan kami, Anda setuju dengan ketentuan penggunaan yang berlaku.')">Terms of Service</a>
+        <a id="ftCookie" onclick="alert('Cookie Settings.Website ini menggunakan cookie untuk pengalaman terbaik. Anda dapat mengatur preferensi cookie di pengaturan browser Anda.')">Cookie Settings</a>
       </div>
     </div>
     <div class="ft-bottom">
@@ -1254,7 +1254,7 @@ function sendRes(){
   const name=g("rName").value.trim(),phone=g("rPhone").value.trim(),date=g("rDate").value,time=g("rTime").value,pax=g("rPax").value;
   if(!name||!phone||!date||!time||!pax){toast("Mohon lengkapi data reservasi","err");return;}
   const wa=S.settings.wa||DEF_WA; 
-  const msg=encodeURIComponent(`*RESERVASI — Hide and Nip Cafe* 🍵\n\nNama       : ${name}\nNo. HP     : ${phone}\nTanggal    : ${date}\nJam        : ${time}\nTamu       : ${pax}\nArea       : ${g("rArea").value||"—"}\nCatatan    : ${g("rNote").value.trim()||"—"}\n\n_Dikirim via website_`);
+  const msg=encodeURIComponent(`*RESERVASI — Hide and Nip Cafe* \n\nNama       : ${name}\nNo. HP     : ${phone}\nTanggal    : ${date}\nJam        : ${time}\nTamu       : ${pax}\nArea       : ${g("rArea").value||"—"}\nCatatan    : ${g("rNote").value.trim()||"—"}\n\n_Dikirim via website_`);
   window.open(`https://wa.me/${wa}?text=${msg}`,"_blank");
 }
 
